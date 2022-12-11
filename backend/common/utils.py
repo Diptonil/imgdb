@@ -1,4 +1,4 @@
-from common.queries import USER_CONSTRAINTS, MOVIE_CONSTRAINTS
+from common.queries import USER_CONSTRAINTS, MOVIE_CONSTRAINTS, AUTHORIZATION
 
 
 class User:
@@ -20,6 +20,17 @@ def initializer(database_driver):
     with database_driver.session() as session:
         session.run(MOVIE_CONSTRAINTS)
         session.run(USER_CONSTRAINTS)
+
+
+def authorize(token, database_driver):
+    result = None
+    if token is None or token == '':
+        return False
+    with database_driver.session() as session:
+        result = session.run(AUTHORIZATION, {'token': token})
+    if len(result) > 0:
+        return True
+    return False
 
 
 def is_password_strong(password):
