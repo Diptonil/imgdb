@@ -1,0 +1,7 @@
+FROM python:latest
+WORKDIR /app
+COPY . /
+ENV FLASK_ENV production
+RUN pip install -r requirements.txt
+EXPOSE 5000
+CMD ["python", "api.py"]
