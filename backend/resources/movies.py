@@ -78,7 +78,6 @@ class UnStarMovieOrShow(Resource):
     pass
 
 
-
 class AddMovie(Resource):
     
     def __init__(self, database_driver):

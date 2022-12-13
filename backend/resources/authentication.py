@@ -29,10 +29,8 @@ class Login(Resource):
                     return ({'status': 'Login successful.', 'token': auth_token.decode()}, 201)
                 return ({'status': 'Login unsuccessful. Please recheck your credentials.'}, 401)
             except:
-                return ({'status': 'Login unsuccessful. There is some problem with the server. Please try again later.'}, 500)
+                return ({'status': 'Login unsuccessful. There is some problem with the server. Please try again later.'}, 500)       
         
-        
-
 
 class Register(Resource):
 

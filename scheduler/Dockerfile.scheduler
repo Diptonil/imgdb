@@ -1,0 +1,15 @@
+FROM python:latest
+
+WORKDIR /dir
+
+RUN apt-get update && apt-get -y install cron && pip3 install requests
+
+COPY . .
+ 
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+RUN (crontab -l ; echo "* * * * * python3 scheduler.py> /proc/1/fd/1 2>/proc/1/fd/2") | crontab
+ 
+# Run the command on container startup
+CMD cron && tail -f cron.log
