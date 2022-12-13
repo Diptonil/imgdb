@@ -8,6 +8,7 @@ export default function Login(){
     })
 
     function handleChange(event){
+        console.log(event.target.value)
         setFormdata(prevFormData => {
             return{
                 ...prevFormData,
@@ -16,19 +17,31 @@ export default function Login(){
         })
     }
 
+    function handleSubmit(){
+        return
+    }
+
     return(
-        <form>
+        <form onSubmit={handleSubmit}>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <input type="text"
             placeholder = "Email ID"
             onChange = {handleChange}
             name = "email"
+            value= {formdata.email}
             />
 
-            <input type="text"
+            <input type="password"
             placeholder = "Password"
             onChange = {handleChange}
             name = "password"
+            value= {formdata.password}
             />
+
+        <button>Submit</button>
         </form>
     )
 }

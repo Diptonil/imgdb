@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navabar(){
     return(
@@ -9,8 +10,8 @@ export default function Navabar(){
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#" className="nav-item">Sign Up</a></li>
-                        <li><a href="#" className="nav-item">Login</a></li>
+                        <li><Link to ="/signup" className="nav-item">Sign Up</Link></li>
+                        <li><Link to ="/login" className="nav-item">Login</Link></li>
                     </ul>
                 </div>
             </div>

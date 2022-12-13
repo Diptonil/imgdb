@@ -1,0 +1,11 @@
+.container{
+    border: 1px solid black;
+    max-width: 1250px;
+    display: flex;
+    /* justify-content: center; */
+    margin: auto;
+}
+
+/* .genre{
+    width: 100%;
+} */
