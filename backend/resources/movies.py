@@ -3,10 +3,46 @@ import uuid
 from flask import request
 from flask_restful import Resource
 
-from common.queries import RATE_MOVIE_OR_SHOW, CURRENT_RATING, CURRENT_VOTES, CREATE_MOVIE, CREATE_SHOW, STAR_MOVIE_OR_SHOW
+from common.queries import (
+    RATE_MOVIE_OR_SHOW, 
+    CURRENT_RATING, 
+    CURRENT_VOTES, 
+    CREATE_MOVIE, 
+    CREATE_SHOW, 
+    STAR_MOVIE_OR_SHOW,
+    TRENDING_MOVIES,
+    TRENDING_SHOWS
+)
 from common.utils import is_rating_correct, authorize
 
 # MAKE FUNCTION FOR AUTHORIZATION
+
+
+class TrendingMovies(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def get(self):
+        with self.database_driver.session() as session:
+            result = list(session.run(TRENDING_MOVIES).single())
+            if not result:
+                return ({'status': 'No trending movies at the moment.'}, 400)
+            return ({'status': 'The trending movies at the moment have been fetched.', 'movies': result}, 200)
+
+
+class TrendingShows(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def get(self):
+        with self.database_driver.session() as session:
+            result = list(session.run(TRENDING_SHOWS).single())
+            if not result:
+                return ({'status': 'No trending shows at the moment.'}, 400)
+            return ({'status': 'The trending shows at the moment have been fetched.', 'shows': result}, 200)
+
 
 class RateMovieOrShow(Resource):
 
@@ -28,7 +64,7 @@ class RateMovieOrShow(Resource):
             result = session.run(CURRENT_RATING, entries).single()[0]
             votes = session.run(CURRENT_VOTES, entries).single()[0]
             entries['new_rating'] = (result + rating) / (votes + 1)
-            result = session.run(RATE_MOVIE_OR_SHOW, entries)
+            result = session.run(RATE_MOVIE_OR_SHOW, entries).single()
         if result == entries['new_rating']:
             return ({'status': 'Rating has been succesfully added.'}, 200)
         return ({'status': 'Unable to add movie.'}, 400)

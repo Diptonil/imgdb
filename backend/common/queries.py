@@ -5,6 +5,11 @@ MOVIE_CONSTRAINTS = \
     
     """
 
+SHOW_CONSTRAINTS = \
+    """
+    
+    """
+
 USER_CONSTRAINTS = \
     """
     
@@ -67,4 +72,13 @@ STAR_MOVIE_OR_SHOW = \
 UNSTAR_MOVIE_OR_SHOW = \
     """
     
+    """
+
+TRENDING_MOVIES = \
+    """
+
+    """
+
+TRENDING_SHOWS = \
+    """
     """

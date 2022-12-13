@@ -1,19 +1,34 @@
+import datetime
+import jwt
+import uuid
+
+from common.constants import SECRET_KEY
 from common.queries import USER_CONSTRAINTS, MOVIE_CONSTRAINTS, AUTHORIZATION
 
 
-class User:
+class User():
 
-    def __init__(self):
-        self.has_logged_in = False
+    def __init__(self, username, password):
+        self.id = str(uuid.uuid4())
+        self.username = username
+        self.password = password
 
-    def get_login_status(self):
-        return self.has_logged_in
+    def encode_auth_token(self, id):
+        try:
+            payload = {'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5), 'iat': datetime.datetime.utcnow(), 'sub': id}
+            return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        except Exception as e:
+            return e
 
-    def login(self):
-        self.has_logged_in = True
-
-    def logout(self):
-        self.has_logged_in = False
+    @staticmethod
+    def decode_auth_token(auth_token):
+        try:
+            payload = jwt.decode(auth_token, SECRET_KEY)
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return ({'status': 'Signature expired. Please log in again.'})
+        except jwt.InvalidTokenError:
+            return ({'status': 'Invalid token. Please log in again.'})
 
 
 def initializer(database_driver):
