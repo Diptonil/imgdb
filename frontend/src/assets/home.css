@@ -1,11 +1,21 @@
 .container{
-    border: 1px solid black;
-    max-width: 1250px;
-    display: flex;
-    /* justify-content: center; */
-    margin: auto;
+    padding: 0 5vw;
 }
 
-/* .genre{
+.trending{
     width: 100%;
-} */
+    margin: 150px 0;
+    display: grid;
+    grid-template-columns: 15% auto;
+}
+
+.trending h1{
+    width: 200px;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.684);
+}
+
+.trending .moviecard-container{
+    margin-top: -50px;
+}
+

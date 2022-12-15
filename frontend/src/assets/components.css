@@ -8,6 +8,7 @@
     /* max-width: 1350px; */
     margin: 0 30px;
     display: flex;
+    background: none;
     justify-content: space-between;
     height: 60px;
     align-items: center;
@@ -15,9 +16,10 @@
 }
 
 .nav-bar{
-    background-color: #ffffff;
-    box-shadow: 0px 1px 6px 2px rgba(0, 0, 0, 0.066);
+    background-color: var(--primary);
     z-index: 10;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(3px);
     position: fixed;
     top: 0;
     width: 100%;
@@ -37,13 +39,8 @@
 
 .brand h2{
     font-size: 20px;
-    line-height: 20px;
 }
 
-.brand p{
-    font-size: 14px;
-    color: #000000be;
-}
 
 
 
@@ -51,22 +48,157 @@
     padding: 0 20px;
     font-weight: 550;
     transition: all 0.5s ease;
-    color: #23192395;
+    color: rgba(255, 255, 255, 0.622);
     font-size: 1vw;
 }
 
 .nav-item:hover{
-    color: #1e0029;
+    color: #ffffff;
 }
 
+/************
+*** Carousel ***
+*************/
+.carousel{
+    position: relative;
+    overflow: hidden;
+}
+
+.inner{
+    white-space: nowrap;
+    transition: transform 0.6s;
+}
+
+.carousel-item{
+    display: inline-flex;
+}
+
+.carousel img{
+    height: 95vh;
+    width: 100vw;
+    object-fit: cover;
+    opacity: 0.4;
+    /* box-shadow: 0 0 8px 8px var(--primary) inset; */
+}
+
+.indicators{
+    padding: 30px;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 8vw;
+    background: rgba(255, 255, 255, 0.032);
+    backdrop-filter: blur(3px);
+}
+
+.indicator-button-group{
+    margin-top: 30vh;
+}
+
+.indicators button{
+    margin-bottom: 10px;
+    display: block;
+    border: none;
+}
+
+.indicators .index-button{
+    background-color: transparent;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.508);
+}
+
+.indicators .active-carousel-index{
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.blurtop{
+    width: 100vw;
+    height: 40vh;
+    position: absolute;
+    top: 0;
+    background: linear-gradient(180deg, #000000b6 0%, rgba(217, 217, 217, 0) 100%);
+}
+
+.blurbottom{
+    width: 100vw;
+    height: 40vh;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(180deg, rgb(18, 14, 20) 0%, rgba(0, 0, 0, 0) 100%);
+    transform: rotate(180deg);
+}
+
+.carousel .movie-details{
+    position: absolute;
+    top: 30vh;
+    left: 8vw;
+    max-width: 30vw;
+}
+
+.carousel .movie-name{
+    font-size: 90px;
+    line-height: 90px;
+    margin-bottom: 20px;
+}
+
+.carousel .movie-details .ratings{
+    color: var(--accent);
+    width: 20px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.carousel .movie-details .ratings p{
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.carousel .movie-details .genre{
+    display: inline-block;
+    color: #ffffffbc;
+}
+
+.carousel .movie-details .primary-button{
+    margin-top: 10vh;
+}
 /************
 *** Movie Card ***
 *************/
 
 .moviecard{
-    width: 300px;
-    padding: 20px;
+    width: 250px;
+    padding: 0 10px;
     border: 1px solid black;
-    margin: 10px;
+    margin: 0 5px;
     display: inline-block;
+}
+
+.moviecard .movieposter{
+    border-radius: 6px;
+}
+
+.moviecard .movie-name{
+    margin-top: 15px;
+    color: white;
+    font-size: 22px;
+}
+
+.moviecard .rating{
+    font-size: 18px;
+    color: var(--accent);
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.moviecard .year{
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.752);
+    display: inline-block;
+}
+
+.moviecard .genre{
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.752);
+
 }

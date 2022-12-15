@@ -1,6 +1,9 @@
 
 body{
-    --accent: #A503DE;
+    --accent: #c698ff;
+    --primary: rgb(18, 14, 20);
+    background-color: var(--primary)
+
   }
   
   
@@ -13,7 +16,10 @@ body{
   
   *{
     font-family: 'Poppins', sans-serif;
+    color: white;
     font-weight: 400;
+    background-color: none;
+
   }
   
   /* Remove default margin */
@@ -86,6 +92,7 @@ body{
   
   a{
       text-decoration: none;
+      color: white;
   }
   
   li{
@@ -138,3 +145,20 @@ body{
   code{
     font-family: 'Inter', sans-serif;
   }
+
+
+  
+/************
+*** Utilities ***
+*************/
+
+/************
+*** Buttons ***
+*************/
+.primary-button{
+  background-color: var(--accent);
+  border: none;
+  color: var(--primary);
+  padding: 15px 50px;
+  border-radius: 5px;
+}

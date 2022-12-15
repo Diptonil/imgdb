@@ -1,35 +1,43 @@
 import Navabar from './navbar';
 import MovieCard from './moviecard';
+import Carousel, {CarouselItem} from './carousel';
+import lalaland from '../images/lalaland.jpg'
+import '../assets/home.css';
 
 export default function Home(){
     return(
         <div>
             <Navabar />
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+                <Carousel>
+                    <CarouselItem><img src={lalaland}></img></CarouselItem>
+                    <CarouselItem><img src={lalaland}></img></CarouselItem>
+                    <CarouselItem><img src={lalaland}></img></CarouselItem>
+                    <CarouselItem><img src={lalaland}></img></CarouselItem>
+                    <CarouselItem><img src={lalaland}></img></CarouselItem>
+                </Carousel>
+
             <div className='container'>
 
                 {/* Recs Placeholder */}
 
-                <div>
+                <div className='trending'>
                     <h1>Trending Now</h1>
-                    <MovieCard />
-                    <MovieCard />
-                    <MovieCard />
-                    
+                    <div className='moviecard-container'>
+                        <MovieCard />
+                        <MovieCard />
+                        <MovieCard />
+                    </div>
                 </div>
 
-                {/* <div className='genre'>
-                    <h1>Explore Genres</h1>
-                    <div>
-                        Horror
+                <div className='trending'>
+                    <h1>Trending Now</h1>
+                    <div className='moviecard-container'>
+                        <MovieCard />
+                        <MovieCard />
+                        <MovieCard />
                     </div>
-                    <div>
-                        Thriller
-                    </div>
-                </div> */}
+                </div>
+                
             </div>
         </div>
     )

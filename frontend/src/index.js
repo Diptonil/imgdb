@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import './assets/base.css';
 import './assets/components.css';
-import './assets/home.css';
 import Home from './components/home';
 import Login from './components/login'
 import Signup from './components/signup'
