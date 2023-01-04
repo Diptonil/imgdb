@@ -77,6 +77,8 @@ const Carousel = ({children}) => {
                 </div>
 
 
+                
+                {/* Gets data from API of any 5 featured movies */}
                 <div className='movie-details'>
                     <h1 className='movie-name'>
                         La La Land

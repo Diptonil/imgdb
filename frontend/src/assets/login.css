@@ -1,0 +1,72 @@
+
+.signup-login img{
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
+    opacity: 0.2;
+}
+
+.form-container{
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    padding: 100px;
+    width: 55vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.978);
+    border-radius: 0px 30px 30px 0px;
+}
+
+.welcome-text{
+    text-align: center;
+    color: rgba(255, 255, 255, 0.525);
+}
+
+.welcome-text h1{
+    color: rgba(255, 255, 255, 0.793);
+}
+
+.welcome-text p{
+    color: rgba(255, 255, 255, 0.695);
+}
+
+
+input:invalid{
+    background-color: rgb(60, 35, 35);
+    border: 1px solid rgb(255, 121, 121);
+}
+
+input, input:required{
+    width: 23vw;
+    display: block;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(35, 35, 35);
+    padding: 12px 15px;
+    margin-bottom: 25px;
+}
+
+
+input:required:focus, input:focus{
+    outline: none;
+    border: none;
+    background-color: rgb(69, 58, 69);
+}
+
+form{
+    margin-top: 40px;
+    margin-left: 10vw;
+}
+
+.submit-btn{
+    background-color: var(--accent);
+    color: var(--primary);
+    width: 23vw;
+    display: block;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    margin-top: 50px;
+}
+
