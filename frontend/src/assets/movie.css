@@ -93,14 +93,43 @@ body{
     font-size: 14px;
 }
 
+.collapsible-container{
+    margin: 0px 120px;
+}
+
 .collapsible{
     height: 50px;
-    width: 90vw;
+    width: 83vw;
     background-color: #282828;
     border: none;
+
+}
+
+.collapsible-content{
+    margin: 30px 50px;
 }
 
 .collapsible-content p{
     display: block;
 
+}
+
+.side-nav{
+    margin-top: 50px;
+}
+
+.recommended-movies{
+    display: grid;
+    grid-template-columns: 24% 70%;
+}
+
+.tablink{
+    padding-bottom: 6px;
+    margin-left: 35%;
+    color: #ffffff9d;
+    cursor: pointer;
+}
+
+.tab-active{
+    color: #ffffff;
 }

@@ -7,6 +7,15 @@ export default function MovieDesc(props){
 
     const [collapsed, setCollapsed] = React.useState(false)
 
+    function collapse(){
+        setCollapsed(prevCollapsed => !prevCollapsed)
+    }
+
+    const [activeItem, setActiveItem] = React.useState(1)
+    const toggleTab = (index) => {
+        setActiveItem(index);
+    }
+
     return(
         <div>
             <img aria-hidden className='background-poster' src={lalaland}></img>
@@ -49,33 +58,76 @@ export default function MovieDesc(props){
                 </div>
             </div>
 
-            <div>
-                <button onClick={setCollapsed} type="button" class="collapsible">comments</button>
+            <div class="collapsible-container">
+                <button onClick={collapse} type="button" class="collapsible">comments</button>
                 <div class="collapsible-content">
-                    {collapsed && <div>
-                        <img></img>
-                        <h3>Namee name</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>}
+                    {collapsed && 
+                    <div>
+                        <div>
+                            <img></img>
+                            <h3>Namee name</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+
+                        <br></br>
+
+                        <div>
+                            <img></img>
+                            <h3>Namee name</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                    </div>
+                    
+                    
+
+                    }
                 </div>
             </div>
 
             {/* gotta changee */}
-            <div className='trending'> 
+            <div className='recommended-movies' id='1'> 
                 <div className='side-nav'>
-                    <div className='active'>Recommended</div>
-                    <div>Same Director</div>
-                    <div>Same Cast</div>
+                    <div className={activeItem === 1? "tablink tab-active" : "tablink"} onClick={() => toggleTab(1)} >Recommended</div>
+                    <div className={activeItem === 2? "tablink tab-active" : "tablink"} onClick={() => toggleTab(2)}>Same Director</div>
+                    <div className={activeItem === 3? "tablink tab-active" : "tablink"} onClick={() => toggleTab(3)} >Same Cast</div>
                 </div>
+                
+                {
+                    activeItem === 1 && 
+                    <div className='moviecard-container'>
+                        <MovieCard />
+                        <MovieCard />
+                        <MovieCard />
+                        <MovieCard />
+                    </div>
+                }
+                
+                {
+                    activeItem === 2 && 
+                    <div className='moviecard-container'>
+                        <MovieCard />
+                        <MovieCard />
+                    </div>
+                }
 
-                <div className='moviecard-container'>
+                {
+                    activeItem === 3 && 
+                    <div className='moviecard-container'>
                         <MovieCard />
                         <MovieCard />
                         <MovieCard />
-                        <MovieCard />
-                        <MovieCard />
-                </div>
+                    </div>
+                }
             </div>
+            
+            {/* footer */}
+
+            <br></br>
+            <br></br>
         </div>
+
+  // "proxy":"http://localhost:5000/",
+
+    
     )
 }
