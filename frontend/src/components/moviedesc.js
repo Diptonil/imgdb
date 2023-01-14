@@ -1,9 +1,13 @@
 import React from 'react';
 import MovieCard from './moviecard';
+import { useParams } from "react-router-dom";
 import lalaland from '../images/lalaland.jpg'
 import '../assets/movie.css'
 
-export default function MovieDesc(props){
+export default function MovieDesc(){
+    const { id } = useParams();
+    console.log(id)
+    // Use the id to fetch the other data by making a call to the API
 
     const [collapsed, setCollapsed] = React.useState(false)
 

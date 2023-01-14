@@ -14,7 +14,7 @@ CORS(app)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 database_driver = GraphDatabase.driver(MOVIE_DATABASE_URL, auth=basic_auth(MOVIE_DATABASE_USERNAME, str(MOVIE_DATABASE_PASSWORD)))
-initializer(database_driver)
+# initializer(database_driver)
 
 # Authentication resources
 api.add_resource(Login, '/login', resource_class_kwargs={'database_driver': database_driver})
@@ -22,11 +22,11 @@ api.add_resource(Logout, '/logout')
 api.add_resource(Register, '/register', resource_class_kwargs={'database_driver': database_driver})
 
 # Movie resources
-api.add_resource(AddShow, '/create/show', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(AddMovie, '/create/movie', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(AddShow, '/show/create', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(AddMovie, '/movie/create', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(RateMovieOrShow, '/rate', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(TrendingShows, 'trending/shows', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(TrendingMovies, 'trending/movies', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(TrendingShows, '/shows/trending', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(TrendingMovies, '/movies/trending', resource_class_kwargs={'database_driver': database_driver})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

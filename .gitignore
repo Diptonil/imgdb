@@ -3,11 +3,13 @@
 venv
 scribbles.py
 scribbles.txt
+__pycache__
 real_queries.py
 
 # JavaScript
 # dependencies
 node_modules
+key.js
 /.pnp
 .pnp.js
 

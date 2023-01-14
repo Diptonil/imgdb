@@ -94,9 +94,10 @@ class AddMovie(Resource):
         year_of_release = data.get('year_of_release')
         genre = data.get('genre')
         description = data.get('description')
-        entries = {'id': movie_id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description}
+        poster_path = data.get('poster_path')
+        entries = {'id': movie_id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path}
         result = None
-        if not authorize(token):
+        if not authorize(token, self.database_driver):
             return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
         with self.database_driver.session() as session:
             result = session.run(CREATE_MOVIE, entries).single()[0]
@@ -124,7 +125,7 @@ class AddShow(Resource):
         description = data.get('description')
         entries = {'id': show_id, 'title': title, 'language': language, 'seasons': seasons, 'length_per_episode': length_per_episode, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description}
         result = None
-        if not authorize(token):
+        if not authorize(token, self.database_driver):
             return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
         with self.database_driver.session() as session:
             result = session.run(CREATE_SHOW, entries).single()[0]

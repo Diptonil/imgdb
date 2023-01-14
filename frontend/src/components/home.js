@@ -3,8 +3,24 @@ import MovieCard from './moviecard';
 import Carousel, {CarouselItem} from './carousel';
 import lalaland from '../images/lalaland.jpg'
 import '../assets/home.css';
+import React, { useEffect } from 'react';
+import { TMDB_API_KEY } from '../api/key';
+
+const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`
 
 export default function Home(){
+
+    const [movies, setMovies] = React.useState([]);
+
+    useEffect(() => {
+        fetch(API_URL)
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data);
+            setMovies(data.results)
+        })
+    }, [])
+
     return(
         <div>
             <Navabar />
@@ -27,9 +43,9 @@ export default function Home(){
                     <h1>Trending Now</h1>
                     {/* API call and pass values as props to MovieCard component */}
                     <div className='moviecard-container'>
-                        <MovieCard />
-                        <MovieCard />
-                        <MovieCard />
+                        <MovieCard name='la la land' />
+                        <MovieCard name='before sunrise'/>
+                        <MovieCard name='before midnight'/>
                     </div>
                 </div>
 
@@ -38,9 +54,7 @@ export default function Home(){
                 <div className='trending'> 
                     <h1>Trending Now</h1>
                     <div className='moviecard-container'>
-                        <MovieCard />
-                        <MovieCard />
-                        <MovieCard />
+                        {movies.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
                     </div>
                 </div>
 
