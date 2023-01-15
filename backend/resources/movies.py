@@ -9,6 +9,8 @@ from common.queries import (
     CURRENT_VOTES, 
     CREATE_MOVIE, 
     CREATE_SHOW, 
+    GET_MOVIE,
+    GET_SHOW, 
     STAR_MOVIE_OR_SHOW,
     TRENDING_MOVIES,
     TRENDING_SHOWS
@@ -96,14 +98,11 @@ class AddMovie(Resource):
         description = data.get('description')
         poster_path = data.get('poster_path')
         entries = {'id': movie_id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path}
-        result = None
-        if not authorize(token, self.database_driver):
-            return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
+        # if not authorize(token, self.database_driver):
+        #     return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
         with self.database_driver.session() as session:
-            result = session.run(CREATE_MOVIE, entries).single()[0]
-        if result == movie_id:
-            return ({'status': 'Movie has been succesfully added.', 'token': token}, 200)
-        return ({'status': 'Unable to add movie.', 'token': token}, 400) 
+            session.run(CREATE_MOVIE, entries)
+        return ({'status': 'Movie has been succesfully added.', 'token': token}, 200)
 
 
 class AddShow(Resource):
@@ -124,13 +123,47 @@ class AddShow(Resource):
         genre = data.get('genre')
         description = data.get('description')
         entries = {'id': show_id, 'title': title, 'language': language, 'seasons': seasons, 'length_per_episode': length_per_episode, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description}
-        result = None
         if not authorize(token, self.database_driver):
             return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
         with self.database_driver.session() as session:
-            result = session.run(CREATE_SHOW, entries).single()[0]
-        if result == show_id:
-            return ({'status': 'Show has been succesfully added.', 'token': token}, 200)
-        return ({'status': 'Unable to add show.', 'token': token}, 400)
+            session.run(CREATE_SHOW, entries).single()[0]
+        return ({'status': 'Show has been succesfully added.', 'token': token}, 200)
+        # return ({'status': 'Unable to add show.', 'token': token}, 400)
+
+
+class GetMovieDetails(Resource):
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def get(self):
+        data = request.get_json()
+        id = data.get('id')
+        entries = {'id': id}
+        with self.database_driver.session() as session:
+            result = session.run(GET_MOVIE, entries).single()[0]
+            if result.get('id') is not id:
+                return ({'status': 'Could not fetch information at the moment'}, 400)
+            resultList = {}
+            for x in result:
+                resultList[x] = result[x]
+            return ({'status': 'The data has been fetched', 'data': resultList}, 200)
+
+
+class GetShowDetails(Resource):
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def get(self):
+        data = request.get_json()
+        id = data.get('id')
+        entries = {'id': id}
+        with self.database_driver.session() as session:
+            result = session.run(GET_SHOW, entries).single()[0]
+            if result.get('id') is not id:
+                return ({'status': 'Could not fetch information at the moment'}, 400)
+            resultList = {}
+            for x in result:
+                resultList[x] = result[x]
+            return ({'status': 'The data has been fetched', 'data': resultList}, 200)
 
 

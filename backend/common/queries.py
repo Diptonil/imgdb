@@ -48,12 +48,24 @@ CHECK_USER = \
 
 CREATE_MOVIE = \
     """
-    CREATE (movie: Movie {id: $id, title: $title, language: $language, length: $length,  income: $income, year_of_realease: $year_of_release, genre: $genre, description: $description, poster_path: $poster_path, rating: -1, votes: 0 stars: 0})
+    CREATE (movie: Movie {id: $id, title: $title, language: $language, length: $length,  income: $income, year_of_realease: $year_of_release, genre: $genre, description: $description, poster_path: $poster_path, rating: -1, votes: 0, stars: 0})
     """
 
 CREATE_SHOW = \
     """
     CREATE (show: Show {id: $id, title: $title, language: $language, seasons: $seasons, length_per_episode: $length_per_episode, genre: $genre, description: $description, rating: -1, votes: 0, stars: 0})
+    """
+
+GET_MOVIE = \
+    """
+    MATCH (item: Movie {id: $id})
+    RETURN item
+    """
+
+GET_SHOW = \
+    """
+    MATCH (item:Show {id: $id})
+    RETURN item
     """
 
 CURRENT_RATING = \
