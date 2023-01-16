@@ -50,7 +50,7 @@ class Register(Resource):
             return ({'status': 'Registration unsuccessful. ' + result[1]}, 400)
         with self.database_driver.session() as session:
             if session.run(CHECK_USERNAME, entries).single() is None:
-                return ({'status': 'Registration unsuccessful. Username already exists'}, 400)
+                return ({'status': 'Registration unsuccessful. Username already exists'}, 409)
             try:
                 user = User(username=username, password=password)
                 auth_token = user.encode_auth_token(user.id)

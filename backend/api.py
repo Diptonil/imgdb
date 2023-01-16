@@ -8,6 +8,7 @@ from common.utils import initializer
 from resources.authentication import Login, Logout, Register
 from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovieDetails
 
+
 app = Flask(__name__)
 api = Api(app)
 CORS(app)

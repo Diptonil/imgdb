@@ -1,17 +1,23 @@
 import React from 'react';
+import {useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
 
+import axios from '../api/axios'
+import AuthContext from '../context/AuthProvider';
 import '../assets/login.css'
 
+const SUBMIT_URL = "/login"
+
 export default function Login(){
+    const { setAuth } = useContext(AuthContext)
+    const [errMsg, setErrMSg] = useState("")
 
     const [formdata, setFormdata] = React.useState({
-        email: "",
+        username: "",
         password: "",
     })
 
     function handleChange(event){
-        console.log(event.target.value)
         setFormdata(prevFormData => {
             return{
                 ...prevFormData,
@@ -20,8 +26,35 @@ export default function Login(){
         })
     }
 
-    function handleSubmit(){
-        return
+    const handleSubmit= async(e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(SUBMIT_URL, JSON.stringify({
+                username: formdata.username, 
+                password: formdata.password
+            }), 
+            {
+                headers: { 'Content-Type': 'application/json'},
+                withCredentials: true
+            }
+            );
+
+            const accessToken = response?.token
+            setAuth({ username: formdata.username, 
+                password: formdata.password, accessToken})
+
+        } catch (err){
+            if (!err?.response || err.response?.status === 500){
+                setErrMSg('Login unsuccessful. There is some problem with the server. Please try again later.')
+                console.log(errMsg)
+            } else if(err.response?.status === 401){
+                setErrMSg('Login unsuccessful. Please recheck your credentials.')
+                console.log(errMsg)
+            } else {
+                setErrMSg('Login unsuccessful.')
+                console.log(errMsg)
+            }
+        }
     }
 
     return(
@@ -34,10 +67,10 @@ export default function Login(){
                 </div>
                 <form onSubmit={handleSubmit}>
                         <input type="text"
-                        placeholder = "Email ID"
+                        placeholder = "Username"
                         onChange = {handleChange}
-                        name = "email"
-                        value= {formdata.email}
+                        name = "username"
+                        value= {formdata.username}
                         />
 
                         <input type="password"

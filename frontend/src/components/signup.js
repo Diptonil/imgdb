@@ -1,14 +1,18 @@
-import React from 'react';
 import {useState} from 'react';
 import lalaland from '../images/lalaland.jpg'
 import { Link } from 'react-router-dom';
+import axios from '../api/axios'
 
 import '../assets/login.css'
 
+const SUBMIT_URL = "/register"
+
 export default function Signup(){
+    
+    const [errMsg, setErrMSg] = useState("")
+
     const [signupdata, setSignupdata] = useState({
         username: "",
-        email: "",
         password: "",
         confirmpassword: ""
     })
@@ -23,8 +27,29 @@ export default function Signup(){
         })
     }
 
-    function handleSubmit(){
-        return
+    const handleSubmit= async(e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(SUBMIT_URL, JSON.stringify({
+                username: signupdata.username, 
+                password: signupdata.password
+            }), {
+                headers: { 'Content-Type': 'application/json'},
+                withCredentials: true
+            }
+            
+            )
+        } catch (err){
+            if (!err?.response){
+                setErrMSg('No Server Response')
+            } else if(err.response?.status === 409){
+                setErrMSg('Username already taken')
+                console.log(errMsg)
+            } else{
+                setErrMSg('Registration Failed')
+                console.log(errMsg)
+            }
+        }
     }
 
     return(
@@ -35,6 +60,7 @@ export default function Signup(){
                     <h1>Welcome to IMGDb!</h1>
                     <p>We are excited to have to here! Let's set up your account and get you started.</p>
                 </div>
+                
                 <form onSubmit={handleSubmit}>
                     <input type="text"
                     placeholder = "Username"
@@ -43,12 +69,12 @@ export default function Signup(){
                     value= {signupdata.username}
                     required/>
 
-                    <input type="email"
+                    {/* <input type="email"
                     placeholder = "Email ID"
                     onChange = {handleChange}
                     name = "email"
                     value= {signupdata.email}
-                    required/>
+                    required/> */}
 
                     <input type="password"
                     placeholder = "Password"
