@@ -1,15 +1,18 @@
 import React from 'react';
-import {useState, useContext} from 'react';
-import { Link } from 'react-router-dom';
+import {useState} from 'react';
+import { Link, useNavigate, useLocation  } from 'react-router-dom';
 
 import axios from '../api/axios'
-import AuthContext from '../context/AuthProvider';
 import '../assets/login.css'
+import useAuth from '../hooks/useAuth';
 
 const SUBMIT_URL = "/login"
 
 export default function Login(){
-    const { setAuth } = useContext(AuthContext)
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from =  location.state?.from?.pathname || "/";
     const [errMsg, setErrMSg] = useState("")
 
     const [formdata, setFormdata] = React.useState({
@@ -42,7 +45,7 @@ export default function Login(){
             const accessToken = response?.token
             setAuth({ username: formdata.username, 
                 password: formdata.password, accessToken})
-
+            navigate(from, { replace : true })
         } catch (err){
             if (!err?.response || err.response?.status === 500){
                 setErrMSg('Login unsuccessful. There is some problem with the server. Please try again later.')

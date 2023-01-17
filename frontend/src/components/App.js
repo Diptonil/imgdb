@@ -1,23 +1,29 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { Route, Routes} from 'react-router-dom';
 import Home from './home';
+import Layout from './Layout'
 import Signup from './signup';
 import Login from './login';
 import MovieDesc from './moviedesc'
+import RequireAuth from './RequireAuth';
 
 
 export default function App(){
     return(
         <div>
-            <Router>
-                <Routes>
+            <Routes>
+                <Route path="/" element={<Layout/>}>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/signup" element={<Signup/>}/>
-                    <Route path="/login" element={ <Login />} />
+                    <Route path="signup" element={<Signup/>}/>
+                    <Route path="login" element={ <Login />} />
                     {/* link address for each movie page to be figured out */}
-                    <Route path={"/moviedesc/:id"} element={ <MovieDesc />} />
-                </Routes>
-            </Router>
+
+                    {/* Protected routes */}
+                    <Route element={<RequireAuth/>}>
+                        <Route path={"moviedesc/:id"} element={ <MovieDesc />} />
+                    </Route>
+                </Route>
+            </Routes>
         </div>
       );
 }
