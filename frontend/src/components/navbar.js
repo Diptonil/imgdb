@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Navabar(){
     return(
-
+    
         <nav className='nav-bar'>
             <div className="container-nav">
                 <div className="brand">

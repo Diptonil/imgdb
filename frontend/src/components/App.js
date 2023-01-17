@@ -17,10 +17,12 @@ export default function App(){
                     <Route path="signup" element={<Signup/>}/>
                     <Route path="login" element={ <Login />} />
                     {/* link address for each movie page to be figured out */}
+                    <Route path={"moviedesc/:id"} element={ <MovieDesc />} />
+                    
 
                     {/* Protected routes */}
                     <Route element={<RequireAuth/>}>
-                        <Route path={"moviedesc/:id"} element={ <MovieDesc />} />
+                        
                     </Route>
                 </Route>
             </Routes>

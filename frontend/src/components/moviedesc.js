@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MovieCard from './moviecard';
 import { useParams } from "react-router-dom";
 import lalaland from '../images/lalaland.jpg'
 import '../assets/movie.css'
+import { TMDB_API_KEY } from '../api/key';
+
+const IMG_URL = "https://image.tmdb.org/t/p/w500"
 
 export default function MovieDesc(){
     const { id } = useParams();
-    console.log(id)
     // Use the id to fetch the other data by making a call to the API
+    const API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`
+
+    const [imgInfo, setImgInfo] = useState({})
+
+    useEffect(() => {
+        fetch(API_URL)
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data);
+            setImgInfo(data)
+        })
+    }, [])
 
     const [collapsed, setCollapsed] = React.useState(false)
+
 
     function collapse(){
         setCollapsed(prevCollapsed => !prevCollapsed)
@@ -22,9 +37,9 @@ export default function MovieDesc(){
 
     return(
         <div>
-            <img aria-hidden className='background-poster' src={lalaland}></img>
+            <img className='background-poster' alt='movie poster' aria-hidden src={imgInfo.poster_path != undefined? IMG_URL+ imgInfo.poster_path: lalaland}></img>
             <div className='outer-grid'>
-                <img alt='movie poster' className='movie-poster' src={lalaland}></img>
+                <img className='movie-poster' alt='movie poster' src={imgInfo.poster_path != undefined? IMG_URL+ imgInfo.poster_path: lalaland}></img>
                 <div className='movie-info-container'>
                     <div className='movie-info'>
                         <h1>La La Land</h1>

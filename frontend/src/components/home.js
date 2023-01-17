@@ -1,6 +1,7 @@
 import Navabar from './navbar';
 import MovieCard from './moviecard';
 import Carousel, {CarouselItem} from './carousel';
+import Recommendations from './recommendations';
 import lalaland from '../images/lalaland.jpg'
 import '../assets/home.css';
 import React, { useEffect } from 'react';
@@ -35,7 +36,7 @@ export default function Home(){
             <div className='container'>
 
                 {/* Reccomendatios Placeholder */}
-
+                <Recommendations/>
 
                 {/* API call to get appropriate movies based on classes */}
 

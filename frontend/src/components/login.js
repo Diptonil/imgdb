@@ -41,7 +41,6 @@ export default function Login(){
                 withCredentials: true
             }
             );
-
             const accessToken = response?.token
             setAuth({ username: formdata.username, 
                 password: formdata.password, accessToken})
