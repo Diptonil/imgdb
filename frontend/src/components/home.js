@@ -4,21 +4,30 @@ import Carousel, {CarouselItem} from './carousel';
 import Recommendations from './recommendations';
 import lalaland from '../images/lalaland.jpg'
 import '../assets/home.css';
-import React, { useEffect } from 'react';
-import { TMDB_API_KEY } from '../api/key';
+import React, { useState, useEffect } from 'react';
 
-const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`
+// const tmdb_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`
+const API_URL = `http://localhost:5000`
 
 export default function Home(){
 
-    const [movies, setMovies] = React.useState([]);
+    const [explore, setExplore] = useState([]);
+    const [trending, setTrending] = React.useState([]);
+
+    // useEffect(() => {
+    //     fetch(tmdb_URL)
+    //     .then((res) => res.json())
+    //     .then(data => {
+    //         setTrending(data.results)
+    //     })
+    // }, [])
 
     useEffect(() => {
-        fetch(API_URL)
+        fetch(API_URL+ '/explore')
         .then((res) => res.json())
         .then(data => {
-            console.log(data);
-            setMovies(data.results)
+            console.log(data.data);
+            setExplore(data.data)
         })
     }, [])
 
@@ -40,22 +49,18 @@ export default function Home(){
 
                 {/* API call to get appropriate movies based on classes */}
 
-                <div className='trending'>
-                    <h1>Trending Now</h1>
-                    {/* API call and pass values as props to MovieCard component */}
-                    <div className='moviecard-container'>
-                        <MovieCard name='la la land' />
-                        <MovieCard name='before sunrise'/>
-                        <MovieCard name='before midnight'/>
-                    </div>
-                </div>
-
-
                 {/* top movies */}
                 <div className='trending'> 
                     <h1>Trending Now</h1>
                     <div className='moviecard-container'>
-                        {movies.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
+                        {trending.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
+                    </div>
+                </div>
+
+                <div className='explore'>
+                    <h1>Explore</h1>
+                    <div className='moviecard-container'>
+                        {explore.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
                     </div>
                 </div>
 

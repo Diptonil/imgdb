@@ -5,7 +5,7 @@ from neo4j import GraphDatabase, basic_auth
 
 from common.constants import SECRET_KEY, MOVIE_DATABASE_PASSWORD, MOVIE_DATABASE_URL, MOVIE_DATABASE_USERNAME
 from resources.authentication import Login, Logout, Register
-from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovieDetails
+from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovieDetails, Explore
 
 
 app = Flask(__name__)
@@ -28,6 +28,8 @@ api.add_resource(RateMovieOrShow, '/rate', resource_class_kwargs={'database_driv
 api.add_resource(TrendingShows, '/shows/trending', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(TrendingMovies, '/movies/trending', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(GetMovieDetails, '/movies/get', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(Explore, '/explore', resource_class_kwargs={'database_driver': database_driver})
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

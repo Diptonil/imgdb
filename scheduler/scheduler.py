@@ -5,11 +5,11 @@ import requests
 taken_movie_ids = list()
 number = None
 
-with open('taken-movies.txt', 'r') as file:
-    taken_movie_ids = file.readlines()
-    for i in range(len(taken_movie_ids)):
-        taken_movie_ids[i] = int(taken_movie_ids[i][:-1])
-    print(taken_movie_ids)
+# with open('taken-movies.txt', 'r') as file:
+#     taken_movie_ids = file.readlines()
+#     for i in range(len(taken_movie_ids)):
+#         taken_movie_ids[i] = int(taken_movie_ids[i][:-1])
+#     print(taken_movie_ids)
 
 while True:
     while True:
@@ -30,6 +30,8 @@ while True:
         except:
             break
 
+    id = movie_data['id']
+    poster_path = movie_data['poster_path']
     title = movie_data['original_title']
     language = movie_data['original_language']
     length = movie_data['runtime']
@@ -37,7 +39,7 @@ while True:
     year_of_release = movie_data['release_date'][: 4]
     genre = movie_data['genres'][0]['name']
     description = movie_data['overview']
-    request = {'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description}
+    request = {'id': id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path}
     final_response = requests.post('http://localhost:5000/movie/create', json=request)
     print(taken_movie_ids)
 

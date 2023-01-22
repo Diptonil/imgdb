@@ -2,25 +2,39 @@ import React, { useEffect, useState } from 'react';
 import MovieCard from './moviecard';
 import { useParams } from "react-router-dom";
 import lalaland from '../images/lalaland.jpg'
+import axios from '../api/axios'
+
 import '../assets/movie.css'
 import { TMDB_API_KEY } from '../api/key';
 
 const IMG_URL = "https://image.tmdb.org/t/p/w500"
+const API_URL = `http://localhost:5000`
 
 export default function MovieDesc(){
     const { id } = useParams();
-    // Use the id to fetch the other data by making a call to the API
-    const API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`
-
     const [imgInfo, setImgInfo] = useState({})
 
     useEffect(() => {
-        fetch(API_URL)
-        .then((res) => res.json())
-        .then(data => {
-            console.log(data);
-            setImgInfo(data)
+        const data = JSON.stringify({
+            id: id
         })
+        console.log(data)
+        fetch(API_URL+ '/movies/get', {
+            mode: "no-cors",
+            method: "POST",
+            body: data,
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then((res) => res.json())
+        .then()
+        // const result = axios.post('/movies/get',  data , 
+        // {
+        //     headers:{"Content-Type" : "application/json"}
+        // })
+        // console.log(result)
+        
     }, [])
 
     const [collapsed, setCollapsed] = React.useState(false)

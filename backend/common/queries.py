@@ -31,7 +31,7 @@ AUTHORIZATION = \
 
 CREATE_USER = \
     """
-    CREATE (user: User {id: $id, username: $username, password: $password, date_of_birth: $date_of_birth, avatar: $avatar})
+    CREATE (user: User {id: $id, username: $username, password: $password})
     """
 
 CHECK_USERNAME = \
@@ -66,6 +66,12 @@ GET_SHOW = \
     """
     MATCH (item:Show {id: $id})
     RETURN item
+    """
+
+EXPLORE = \
+    """
+    MATCH (movie: Movie)
+    RETURN COLLECT(movie)
     """
 
 CURRENT_RATING = \

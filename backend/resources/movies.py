@@ -10,6 +10,7 @@ from common.queries import (
     CREATE_MOVIE, 
     CREATE_SHOW, 
     GET_MOVIE,
+    EXPLORE,
     GET_SHOW, 
     STAR_MOVIE_OR_SHOW,
     TRENDING_MOVIES,
@@ -89,7 +90,7 @@ class AddMovie(Resource):
         data = request.get_json()
         token = data.get('token')
         title = data.get('title')
-        movie_id = str(uuid.uuid4())
+        movie_id = data.get('id')
         language = data.get('language')
         length = data.get('length')
         income = data.get('income')
@@ -135,7 +136,7 @@ class GetMovieDetails(Resource):
     def __init__(self, database_driver):
         self.database_driver = database_driver
 
-    def get(self):
+    def post(self):
         data = request.get_json()
         id = data.get('id')
         entries = {'id': id}
@@ -149,21 +150,19 @@ class GetMovieDetails(Resource):
             return ({'status': 'The data has been fetched', 'data': resultList}, 200)
 
 
-class GetShowDetails(Resource):
+class Explore(Resource):
     def __init__(self, database_driver):
         self.database_driver = database_driver
 
     def get(self):
-        data = request.get_json()
-        id = data.get('id')
-        entries = {'id': id}
         with self.database_driver.session() as session:
-            result = session.run(GET_SHOW, entries).single()[0]
-            if result.get('id') is not id:
+            results = session.run(EXPLORE).single()[0]
+            if not results:
                 return ({'status': 'Could not fetch information at the moment'}, 400)
-            resultList = {}
-            for x in result:
-                resultList[x] = result[x]
-            return ({'status': 'The data has been fetched', 'data': resultList}, 200)
-
-
+            final = []
+            for result in results:
+                resultList = {}
+                for x in result:
+                    resultList[x] = result[x]
+                final.append(resultList)
+            return ({'status': 'The data has been fetched', 'data': final}, 200)

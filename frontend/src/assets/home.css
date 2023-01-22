@@ -2,20 +2,20 @@
     padding: 0 5vw;
 }
 
-.trending{
+.trending, .explore{
     width: 100%;
     margin: 150px 0;
     display: grid;
     grid-template-columns: 15% auto;
 }
 
-.trending h1{
+.trending h1, .explore h1{
     width: 200px;
     font-size: 20px;
     color: rgba(255, 255, 255, 0.684);
 }
 
-.trending .moviecard-container{
+.moviecard-container{
     margin-top: -50px;
 }
 
