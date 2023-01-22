@@ -38,10 +38,11 @@ export default function Login(){
             }), 
             {
                 headers: { 'Content-Type': 'application/json'},
-                withCredentials: true
+                
             }
             );
-            const accessToken = response?.token
+            const accessToken = response.data.token
+            console.log(response.data)
             setAuth({ username: formdata.username, 
                 password: formdata.password, accessToken})
             navigate(from, { replace : true })

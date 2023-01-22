@@ -1,6 +1,8 @@
 from flask import request
 from flask_restful import Resource
-
+import jwt
+import datetime
+from common.constants import SECRET_KEY
 from common.queries import CREATE_USER, CHECK_USER, CHECK_USERNAME
 from common.utils import User, is_password_strong
 
@@ -19,6 +21,14 @@ class Login(Resource):
         if not password:
             return ({'status': 'This field is required.'}, 400)
         entries = {'username': username, 'password': password}
+
+        print(username, password)
+        if username and password:
+            auth_token = jwt.encode({'user': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, SECRET_KEY)
+            print(auth_token)
+            return ({'status': 'Login successful.', 'token': auth_token}, 201)
+        return ({'status': 'Login unsuccessful. Please recheck your credentials.'}, 401)
+
         with self.database_driver.session() as session:
             result = session.run(CHECK_USER, entries).single()
             try:
@@ -41,10 +51,10 @@ class Register(Resource):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
-        date_of_birth = data.get('date_of_birth')
-        avatar = data.get('avatar')
+        # date_of_birth = data.get('date_of_birth')
+        # avatar = data.get('avatar')
         user = User(username=username, password=password)
-        entries = {'id': user.id, 'username': username, 'password': password, 'date_of_birth': date_of_birth, 'avatar': avatar}
+        entries = {'id': user.id, 'username': username, 'password': password}
         result = is_password_strong(password)
         if not result[0]:
             return ({'status': 'Registration unsuccessful. ' + result[1]}, 400)

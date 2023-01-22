@@ -34,8 +34,7 @@ export default function Signup(){
                 username: signupdata.username, 
                 password: signupdata.password
             }), {
-                headers: { 'Content-Type': 'application/json'},
-                withCredentials: true
+                headers: { 'Content-Type': 'application/json'}
             }
             
             )
