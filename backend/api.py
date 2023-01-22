@@ -4,7 +4,6 @@ from flask_restful import Api
 from neo4j import GraphDatabase, basic_auth
 
 from common.constants import SECRET_KEY, MOVIE_DATABASE_PASSWORD, MOVIE_DATABASE_URL, MOVIE_DATABASE_USERNAME
-from common.utils import initializer
 from resources.authentication import Login, Logout, Register
 from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovieDetails
 
