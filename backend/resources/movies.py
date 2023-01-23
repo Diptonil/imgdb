@@ -17,7 +17,8 @@ from common.queries import (
     STAR_MOVIE_OR_SHOW,
     TRENDING_MOVIES,
     TRENDING_SHOWS,
-    RECOMMENDATION
+    RECOMMENDATION, 
+    WATCHLISTED_RELATION
 )
 from common.utils import is_rating_correct, authorize
 
@@ -186,4 +187,41 @@ class OfGenre(Resource):
         entries = {'id': id, 'name':name}
         with self.database_driver.session() as session:
             session.run(OF_GENRE_RELATION, entries)
+        return ({'status': 'Movie has been succesfully added.'}, 200)
+
+
+class Recommendation(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        recommend_like = data.get('movie')
+        entries = {'recommend_like': recommend_like}
+        with self.database_driver.session() as session:
+            results = session.run(RECOMMENDATION, entries).single()[0]
+            if not results:
+                return ({'status': 'Could not fetch information at the moment'}, 400)
+            final = list()
+            for result in results:
+                resultList = {}
+                for x in result:
+                    resultList[x] = result[x]
+                final.append(resultList)
+                print(final)
+            return ({'status': 'The data has been fetched', 'data': final}, 200)
+
+
+class Watchlisted(Resource):
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('id')
+        username = data.get('username')
+        entries = {'id': id, 'username': username}
+        with self.database_driver.session() as session:
+            session.run(WATCHLISTED_RELATION, entries)
         return ({'status': 'Movie has been succesfully added.'}, 200)
