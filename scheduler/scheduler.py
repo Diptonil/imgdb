@@ -5,11 +5,14 @@ import requests
 taken_movie_ids = list()
 number = None
 
-# with open('taken-movies.txt', 'r') as file:
-#     taken_movie_ids = file.readlines()
-#     for i in range(len(taken_movie_ids)):
-#         taken_movie_ids[i] = int(taken_movie_ids[i][:-1])
-#     print(taken_movie_ids)
+try:
+    with open('taken-movies.txt', 'r') as file:
+        taken_movie_ids = file.readlines()
+        for i in range(len(taken_movie_ids)):
+            taken_movie_ids[i] = int(taken_movie_ids[i][:-1])
+        print(taken_movie_ids)
+except Exception:
+    pass
 
 while True:
     while True:
@@ -24,15 +27,12 @@ while True:
         movie_data = requests.get('https://api.themoviedb.org/3/movie/%s?api_key=9021726334d14bbe9f883a67669118f1&append_to_response=credits' % str(number)).json()
         print('https://api.themoviedb.org/3/movie/%s?api_key=9021726334d14bbe9f883a67669118f1' % str(number))
 
-
         try:
             if not movie_data['success']:
                 number += 1
                 continue
         except:
             break
-    
-
 
     id = movie_data['id']
     poster_path = movie_data['poster_path']

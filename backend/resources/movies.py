@@ -16,7 +16,8 @@ from common.queries import (
     GET_SHOW, 
     STAR_MOVIE_OR_SHOW,
     TRENDING_MOVIES,
-    TRENDING_SHOWS
+    TRENDING_SHOWS,
+    RECOMMENDATION
 )
 from common.utils import is_rating_correct, authorize
 
@@ -135,6 +136,7 @@ class AddShow(Resource):
 
 
 class GetMovies(Resource):
+
     def __init__(self, database_driver):
         self.database_driver = database_driver
 
@@ -154,6 +156,7 @@ class GetMovies(Resource):
 
 
 class Explore(Resource):
+
     def __init__(self, database_driver):
         self.database_driver = database_driver
 
@@ -172,6 +175,7 @@ class Explore(Resource):
 
 
 class OfGenre(Resource):
+
     def __init__(self, database_driver):
         self.database_driver = database_driver
 
@@ -183,3 +187,27 @@ class OfGenre(Resource):
         with self.database_driver.session() as session:
             session.run(OF_GENRE_RELATION, entries)
         return ({'status': 'Movie has been succesfully added.'}, 200)
+
+
+class Recommendation(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        recommend_like = data.get('movie')
+        entries = {'recommend_like': recommend_like}
+        with self.database_driver.session() as session:
+            results = session.run(RECOMMENDATION, entries).single()[0]
+            if not results:
+                return ({'status': 'Could not fetch information at the moment'}, 400)
+            final = list()
+            for result in results:
+                resultList = {}
+                for x in result:
+                    resultList[x] = result[x]
+                final.append(resultList)
+                print(final)
+            return ({'status': 'The data has been fetched', 'data': final}, 200)
+            

@@ -21,6 +21,7 @@ USER_CONSTRAINTS = \
     REQUIRES (user: username) IS UNIQUE
     """
 
+
 # Authentication Queries
 
 AUTHORIZATION = \
@@ -44,6 +45,7 @@ CHECK_USER = \
     MATCH (user: User {username: $username, password:$password})
     RETURN user.id
     """
+
 
 # Movie and Series Queries
 
@@ -109,6 +111,7 @@ TRENDING_SHOWS = \
     """
     """
 
+
 # Person Queries
 CREATE_PERSON = \
     """
@@ -137,6 +140,7 @@ MOVIES_OF_ACTORS_OR_DIRECTORS = \
 
 
 # Relationship Queries
+
 WORKS_IN_RELATION = \
     """
     MATCH (a:Person{person_id: $person_id}), (b:Movie{id: $id})
@@ -152,5 +156,12 @@ OF_GENRE_RELATION = \
     """
 
 
+# Recommendation Queries
 
-
+RECOMMENDATION = \
+    """
+    MATCH (recommend_like: Movie{title: $recommend_like})-[:OF_GENRE]->(:Genre)<-[:OF_GENRE]-(all_movies: Movie)
+    MATCH (all_movies)-[:OF_GENRE]->(recommendation: Movie) WHERE NOT exists((recommend_like)-[:OF_GENRE]->(recommendation))
+    LIMIT 3
+    RETURN recommendation
+    """
