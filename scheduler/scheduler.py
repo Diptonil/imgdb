@@ -57,12 +57,12 @@ while True:
     request = {'id': id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path}
     final_response = requests.post('http://localhost:5000/movie/create', json=request)
 
-    cast1_request = {'name': cast1, 'role': 'Actor'}
+    cast1_request = {'name': cast1, 'role': 'Actor', 'movie_id': id}
     cast1_response = requests.post('http://localhost:5000/person/create', json=cast1_request)
-    cast2_request = {'name': cast2, 'role': 'Actor'}
+    cast2_request = {'name': cast2, 'role': 'Actor', 'movie_id': id}
     cast2_response = requests.post('http://localhost:5000/person/create', json=cast2_request)
 
-    director_request = {'name': director, 'role': 'Director'}
+    director_request = {'name': director, 'role': 'Director', 'movie_id': id}
     director_response = requests.post('http://localhost:5000/person/create', json=director_request)
     print(taken_movie_ids)
 

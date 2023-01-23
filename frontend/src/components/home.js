@@ -26,7 +26,6 @@ export default function Home(){
         fetch(API_URL+ '/explore')
         .then((res) => res.json())
         .then(data => {
-            console.log(data.data);
             setExplore(data.data)
         })
     }, [])

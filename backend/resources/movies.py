@@ -141,7 +141,7 @@ class GetMovieDetails(Resource):
         id = data.get('id')
         entries = {'id': id}
         with self.database_driver.session() as session:
-            result = session.run(GET_MOVIE, entries).single()[0]
+            result = session.run(GET_MOVIE, entries).single()
             if result.get('id') is not id:
                 return ({'status': 'Could not fetch information at the moment'}, 400)
             resultList = {}

@@ -108,7 +108,32 @@ TRENDING_SHOWS = \
     """
     """
 
+# Person Queries
 CREATE_PERSON = \
     """
-    CREATE (person: Person {id: $id, name: $name, role: $role})
+    CREATE (person: Person {person_id: $person_id, name: $name, role: $role})
     """
+
+GET_ACTORS = \
+    """
+    MATCH (Person)-[r:WORKED_IN]->(MOVIE{id: $id})
+    WHERE Person.role = 'Actor'
+    RETURN COLLECT(Person)
+    """
+
+GET_DIRECTOR = \
+    """
+    MATCH (Person)-[r:WORKED_IN]->(MOVIE{id: $id})
+    WHERE Person.role = 'Director'
+    RETURN Person.name, Person.person_id
+    """
+
+# Relationship Queries
+WORKS_IN_RELATION = \
+    """
+    MATCH (a:Person{person_id: $person_id}), (b:Movie{id: $id})
+    CREATE (a)-[r:WORKED_IN]->(b)
+    RETURN r
+    """
+
+

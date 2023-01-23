@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Link, useLocation} from "react-router-dom";
 import MovieCard from './moviecard';
 import lalaland from '../images/lalaland.jpg'
 import useAuth from "../hooks/useAuth";
+import axios from '../api/axios'
 
 import '../assets/movie.css'
 
 const IMG_URL = "https://image.tmdb.org/t/p/w500"
 const API_URL = `http://localhost:5000`
+const DIRECTOR_URL = `/director/get`
+
 
 export default function MovieDesc(){
     let location = useLocation();
     let prop = location.state
-    console.log(location.state)
     const { auth } = useAuth();
     const [collapsed, setCollapsed] = React.useState(false)
-
 
     function collapse(){
         setCollapsed(prevCollapsed => !prevCollapsed)
@@ -30,6 +31,44 @@ export default function MovieDesc(){
     function handleClick(){
         setWatchlisted(preValue => !preValue)
     }
+
+    const [actors, setActors] = useState({})
+    const [ director, setDirector ] = useState("")
+    
+
+    useEffect(() => {
+        fetch(API_URL+ '/actor/get',  {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                            id: prop.id
+                        })
+        })
+        .then((res) => res.json())
+        .then(data => {
+            setActors(data.data)
+            console.log(data.data)
+        })
+    }, [])
+
+
+    useEffect(() => {
+        fetch(API_URL+ '/director/get',  {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                            id: prop.id
+                        })
+        })
+        .then((res) => res.json())
+        .then(data => {
+            setDirector(data.data)
+        })
+    }, [])
 
     return(
         <div>
@@ -75,12 +114,12 @@ export default function MovieDesc(){
                     <h3>{prop.income}</h3>
 
                     <h5 className='director'>Director</h5>
-                    <h3>Damien</h3>
+                    <h3>{director}</h3>
 
                     <h5 >Cast</h5>
                     <div className='cast'>
-                        <div>Ryan Gosling ♡</div>
-                        <div>Emma Stone</div>
+                        <div>{actors.name1}</div>
+                        <div>{actors.name2}</div>
                     </div>
                 </div>
             </div>

@@ -176,8 +176,6 @@
 .moviecard .movieposter{
     border-radius: 6px;
     width: 250px;
-    object-fit: cover;
-    height: 300px;
 }
 
 .moviecard .movie-name{
