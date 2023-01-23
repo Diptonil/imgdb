@@ -12,7 +12,7 @@ export default function Recommendations(){
     }
 
     return(
-        <div>
+        <div className='recs'>
             <br></br>
             <br></br>
             <br></br>
@@ -24,8 +24,9 @@ export default function Recommendations(){
                     onChange={handleChange}
                     name = "formdata"
                     value= {formdata}
+                    className= "rec-text"
                 />
-            <button className='submit-btn'>Search</button>
+            <button id='rec-button' className='submit-btn'>Search</button>
             </form>
         </div>
     )

@@ -7,12 +7,12 @@ import '../assets/home.css';
 import React, { useState, useEffect } from 'react';
 
 const API_URL = `http://localhost:5000`
+const IMG_URL = "https://image.tmdb.org/t/p/w500"
 
 export default function Home(){
 
     const [explore, setExplore] = useState([]);
     const [trending, setTrending] = React.useState([]);
-
 
     useEffect(() => {
         fetch(API_URL+ '/explore')
@@ -22,6 +22,7 @@ export default function Home(){
         })
     }, [])
 
+    console.log(explore[0])
     return(
         <div>
             <Navabar />
@@ -41,12 +42,13 @@ export default function Home(){
                 {/* API call to get appropriate movies based on classes */}
 
                 {/* top movies */}
-                <div className='trending'> 
+
+                {/* <div className='trending'> 
                     <h1>Trending Now</h1>
                     <div className='moviecard-container'>
                         {trending.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
                     </div>
-                </div>
+                </div> */}
 
                 <div className='explore'>
                     <h1>Explore</h1>
