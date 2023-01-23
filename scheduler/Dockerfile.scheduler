@@ -2,7 +2,7 @@ FROM python:latest
 
 WORKDIR /dir
 
-RUN apt-get update && apt-get -y install cron && pip3 install requests
+RUN apt-get update && pip3 install requests
 
 COPY . .
  
