@@ -1,42 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useLocation} from "react-router-dom";
 import MovieCard from './moviecard';
-import { useParams } from "react-router-dom";
 import lalaland from '../images/lalaland.jpg'
-import axios from '../api/axios'
+import useAuth from "../hooks/useAuth";
 
 import '../assets/movie.css'
-import { TMDB_API_KEY } from '../api/key';
 
 const IMG_URL = "https://image.tmdb.org/t/p/w500"
 const API_URL = `http://localhost:5000`
 
 export default function MovieDesc(){
-    const { id } = useParams();
-    const [imgInfo, setImgInfo] = useState({})
-
-    useEffect(() => {
-        const data = JSON.stringify({
-            id: id
-        })
-        console.log(data)
-        fetch(API_URL+ '/movies/get', {
-            mode: "no-cors",
-            method: "POST",
-            body: data,
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-        .then((res) => res.json())
-        .then()
-        // const result = axios.post('/movies/get',  data , 
-        // {
-        //     headers:{"Content-Type" : "application/json"}
-        // })
-        // console.log(result)
-        
-    }, [])
-
+    let location = useLocation();
+    let prop = location.state
+    console.log(location.state)
+    const { auth } = useAuth();
     const [collapsed, setCollapsed] = React.useState(false)
 
 
@@ -49,36 +26,53 @@ export default function MovieDesc(){
         setActiveItem(index);
     }
 
+    const [watchlisted, setWatchlisted] = useState(false)
+    function handleClick(){
+        setWatchlisted(preValue => !preValue)
+    }
+
     return(
         <div>
-            <img className='background-poster' alt='movie poster' aria-hidden src={imgInfo.poster_path != undefined? IMG_URL+ imgInfo.poster_path: lalaland}></img>
+            <img className='background-poster' alt='movie poster' aria-hidden src={prop.poster_path !== undefined? IMG_URL + prop.poster_path: lalaland}></img>
             <div className='outer-grid'>
-                <img className='movie-poster' alt='movie poster' src={imgInfo.poster_path != undefined? IMG_URL+ imgInfo.poster_path: lalaland}></img>
+                <img className='movie-poster' alt='movie poster' src={prop.poster_path !== undefined? IMG_URL+ prop.poster_path: lalaland}></img>
                 <div className='movie-info-container'>
                     <div className='movie-info'>
-                        <h1>La La Land</h1>
-                        <h4 className='duration'>02h 23m</h4>
-                        <h4 className='genre'>Romance, Comedy</h4>
-                        <h4 className='year'>2017</h4>
+                        <h1>{prop.title}</h1>
+                        <h4 className='duration'>{prop.length} min</h4>
+                        <h4 className='genre'>{prop.genre}</h4>
+                        <h4 className='year'>{prop.year_of_realease}</h4>
                         
                         <br></br>
-                        <p className='description'>loream epsum and a bunch of other stuff coause whateverrrrrrr loream epsum and a bunch of other stuff coause whateverrrrrrr loream epsum and a bunch of other stuff coause whateverrrrrrr loream epsum and a bunch of other stuff coause whateverrrrrrr</p>
+                        <p className='description'>{prop.description}</p>
 
-                        <button className='primary-button'>Add to Watchlist</button>
-                        <button className='secondary-btn'>Mark as watched</button>
+                        {
+                            auth?.username
+                            ?
+                            <button 
+                            onClick={handleClick} 
+                            className='primary-button'>{watchlisted? "Added to Watchlist": "Add to Watchlist"}</button>
+                            :
+                            <Link to ="/login" className='primary-button'>Add to Watchlist</Link>
+                        }
+                        
+
+                        {/* <button className='secondary-btn'>Mark as watched</button> */}
                     </div>
                 </div>
 
                 <div className='more-info'>
-                    <h1 className='movie-rating'>4.5</h1>
-                    <h5 className='vote-count'>23454 votes</h5>
+                    <h1 className='movie-rating'>{prop.rating < 0 
+                ? "Not rated"
+                : prop.rating}</h1>
+                    <h5 className='vote-count'>{prop.votes} votes</h5>
                     <h5 className='review-count'></h5>
 
-                    <h5 className='language'>Launguage</h5>
-                    <h3>English</h3>
+                    <h5 className='language'>Language</h5>
+                    <h3>{prop.language}</h3>
                     
-                    <h5 className='language'>pg thingy</h5>
-                    <h3>idk</h3>
+                    <h5 className='language'>Income</h5>
+                    <h3>{prop.income}</h3>
 
                     <h5 className='director'>Director</h5>
                     <h3>Damien</h3>
