@@ -51,7 +51,7 @@ CHECK_USER = \
 
 CREATE_MOVIE = \
     """
-    CREATE (movie: Movie {id: $id, title: $title, language: $language, length: $length,  income: $income, year_of_realease: $year_of_release, genre: $genre, description: $description, poster_path: $poster_path, rating: -1, votes: 0, stars: 0, vote_average: $vote_average})
+    CREATE (movie: Movie {id: $id, title: $title, language: $language, length: $length,  income: $income, year_of_realease: $year_of_release, genre: $genre, description: $description, poster_path: $poster_path, rating: -1, votes: 0, stars: 0, popularity: $popularity})
     """
 
 CREATE_SHOW = \
@@ -151,7 +151,7 @@ WORKS_IN_RELATION = \
 OF_GENRE_RELATION = \
     """
     MATCH (b:Movie{id: $id}), (a:Genre{name: $name})
-    CREATE (b)-[r:OF_GENRE]->(a)
+    CREATE (b)-[r:OF_GENRE {rank: $relation_rank}]->(a)
     RETURN r
     """
 
@@ -167,8 +167,8 @@ WATCHLISTED_RELATION = \
 
 RECOMMENDATION = \
     """
-    MATCH (recommend_like: Movie{title: $recommend_like})-[:OF_GENRE]->(genre: Genre)<-[:OF_GENRE]-(all_movies: Movie)
+    MATCH (recommend_like: Movie{title: "Das Boot"})-[:OF_GENRE]->(genre: Genre)<-[:OF_GENRE]-(all_movies: Movie)
+    MATCH (recommend_like)-[rank: OF_GENRE]->(genre: Genre)
     RETURN all_movies
-    ORDER BY all_movies.vote_average
-    LIMIT 3
+    ORDER BY all_movies.popularity DESC, rank.rank ASC
     """

@@ -1,4 +1,3 @@
-import json
 import uuid
 
 from flask import request
@@ -101,7 +100,8 @@ class AddMovie(Resource):
         genre = data.get('genre')
         description = data.get('description')
         poster_path = data.get('poster_path')
-        entries = {'id': movie_id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path}
+        popularity = data.get('popularity')
+        entries = {'id': movie_id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path, 'popularity': popularity}
         # if not authorize(token, self.database_driver):
         #     return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
         with self.database_driver.session() as session:
@@ -182,7 +182,8 @@ class OfGenre(Resource):
         data = request.get_json()
         id = data.get('movie_id')
         name = data.get('name')
-        entries = {'id': id, 'name':name}
+        relation_rank = data.get('relation_rank')
+        entries = {'id': id, 'name':name, 'relation_rank': relation_rank}
         with self.database_driver.session() as session:
             session.run(OF_GENRE_RELATION, entries)
         return ({'status': 'Movie has been succesfully added.'}, 200)

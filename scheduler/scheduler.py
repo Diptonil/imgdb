@@ -43,7 +43,7 @@ while True:
     year_of_release = movie_data['release_date'][: 4]
     genre = movie_data['genres'][0]['name']
     genres = movie_data['genres']
-    vote_average = movie_data['vote_average']
+    popularity = movie_data['popularity']
     description = movie_data['overview']
 
     cast1 = movie_data['credits']['cast'][0]['name']
@@ -55,15 +55,16 @@ while True:
             director = crew['name']
             break
 
-
-    request = {'id': id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'description': description, 'genre': genre, 'poster_path': poster_path, 'vote_average': vote_average}
+    request = {'id': id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'description': description, 'genre': genre, 'poster_path': poster_path, 'popularity': popularity}
     final_response = requests.post('http://localhost:5000/movie/create', json=request)
 
-    for genre in genres: 
+    rank = 1
+    for genre in genres:
+        relation_rank = rank
         name = genre['name']
-        genre_request = {'name': name, 'movie_id': id}
+        genre_request = {'name': name, 'movie_id': id, 'relation_rank': relation_rank}
         genre_response = requests.post('http://localhost:5000//genre/get', json= genre_request)
-        
+        rank += 2
 
     cast1_request = {'name': cast1, 'role': 'Actor', 'movie_id': id}
     cast1_response = requests.post('http://localhost:5000/person/create', json=cast1_request)
@@ -76,4 +77,4 @@ while True:
 
     with open('taken-movies.txt', 'a') as file:
         file.write(str(number) + '\n')
-    time.sleep(60)
+    time.sleep(15)
