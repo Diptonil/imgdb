@@ -3,14 +3,11 @@ import { Link, useLocation} from "react-router-dom";
 import MovieCard from './moviecard';
 import lalaland from '../images/lalaland.jpg'
 import useAuth from "../hooks/useAuth";
-import axios from '../api/axios'
 
 import '../assets/movie.css'
 
 const IMG_URL = "https://image.tmdb.org/t/p/w500"
 const API_URL = `http://localhost:5000`
-const DIRECTOR_URL = `/director/get`
-
 
 export default function MovieDesc(){
     let location = useLocation();
@@ -33,7 +30,7 @@ export default function MovieDesc(){
     }
 
     const [actors, setActors] = useState({})
-    const [ director, setDirector ] = useState("")
+    const [ director, setDirector ] = useState([])
     
 
     useEffect(() => {
@@ -49,7 +46,7 @@ export default function MovieDesc(){
         .then((res) => res.json())
         .then(data => {
             setActors(data.data)
-            console.log(data.data)
+            
         })
     }, [])
 
@@ -67,8 +64,48 @@ export default function MovieDesc(){
         .then((res) => res.json())
         .then(data => {
             setDirector(data.data)
+            console.log(data.data)
         })
     }, [])
+
+    const [actorMovies, setActorMovies] = useState([]);
+    const [directorMovies, setDirectorMovies] = useState([]);
+    function getActorMovies(){
+        fetch(API_URL+ '/movies/get',  {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                            person_id: actors.person_id1
+            })
+        })
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data.data)
+            setActorMovies(data.data)
+        })
+        toggleTab(3)
+    }
+
+    function getDirectorMovies(){
+        fetch(API_URL+ '/movies/get',  {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                            person_id: director[1]
+            })
+        })
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data.data)
+            setDirectorMovies(data.data)
+        })
+        toggleTab(2)
+    }
+
 
     return(
         <div>
@@ -114,7 +151,7 @@ export default function MovieDesc(){
                     <h3>{prop.income}</h3>
 
                     <h5 className='director'>Director</h5>
-                    <h3>{director}</h3>
+                    <h3>{director[0]}</h3>
 
                     <h5 >Cast</h5>
                     <div className='cast'>
@@ -154,8 +191,8 @@ export default function MovieDesc(){
             <div className='recommended-movies' id='1'> 
                 <div className='side-nav'>
                     <div className={activeItem === 1? "tablink tab-active" : "tablink"} onClick={() => toggleTab(1)} >Recommended</div>
-                    <div className={activeItem === 2? "tablink tab-active" : "tablink"} onClick={() => toggleTab(2)}>Same Director</div>
-                    <div className={activeItem === 3? "tablink tab-active" : "tablink"} onClick={() => toggleTab(3)} >Same Cast</div>
+                    <div className={activeItem === 2? "tablink tab-active" : "tablink"} onClick={getDirectorMovies }>Same Director</div>
+                    <div className={activeItem === 3? "tablink tab-active" : "tablink"} onClick={getActorMovies} >Same Cast</div>
                 </div>
                 
                 {
@@ -178,8 +215,7 @@ export default function MovieDesc(){
                         <br></br>
                         <br></br>
                         <div className='moviecard-container'>
-                            <MovieCard />
-                            <MovieCard />
+                            {directorMovies.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
                         </div>
                     </div>
                 }
@@ -190,10 +226,7 @@ export default function MovieDesc(){
                         <br></br>
                         <br></br>
                         <div className='moviecard-container'>
-                            <MovieCard />
-                            <MovieCard />
-                            <MovieCard />
-                            <MovieCard />
+                            {actorMovies.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
                         </div>
                     </div>
                 }

@@ -116,17 +116,24 @@ CREATE_PERSON = \
 
 GET_ACTORS = \
     """
-    MATCH (Person)-[r:WORKED_IN]->(MOVIE{id: $id})
+    MATCH (Person)-[r:WORKED_IN]->(Movie{id: $id})
     WHERE Person.role = 'Actor'
     RETURN COLLECT(Person)
     """
 
 GET_DIRECTOR = \
     """
-    MATCH (Person)-[r:WORKED_IN]->(MOVIE{id: $id})
+    MATCH (Person)-[r:WORKED_IN]->(Movie{id: $id})
     WHERE Person.role = 'Director'
     RETURN Person.name, Person.person_id
     """
+
+MOVIES_OF_ACTORS_OR_DIRECTORS = \
+    """
+    MATCH (Person{person_id: $person_id})-[r:WORKED_IN]->(Movie)
+    RETURN COLLECT(Movie)
+    """
+
 
 # Relationship Queries
 WORKS_IN_RELATION = \
@@ -135,5 +142,7 @@ WORKS_IN_RELATION = \
     CREATE (a)-[r:WORKED_IN]->(b)
     RETURN r
     """
+
+
 
 

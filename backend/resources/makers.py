@@ -46,7 +46,9 @@ class GetActor(Resource):
                 return ({'status': 'Could not fetch information at the moment'}, 400)
             resultList = {}
             resultList['name1'] = results[0]['name']
+            resultList['person_id1'] = results[0]['person_id']
             resultList['name2'] = results[1]['name']
+            resultList['person_id2'] = results[0]['person_id']
             print(resultList)
             return ({'status': 'The data has been fetched', 'data': resultList}, 200)
 
@@ -60,8 +62,11 @@ class GetDirector(Resource):
         id = int(data.get('id'))
         entries = {'id': id}
         with self.database_driver.session() as session:
-            result = session.run(GET_DIRECTOR, entries).single()[0]
-            print(result)
+            result = session.run(GET_DIRECTOR, entries).single()
+            resultList = {}
+            resultList['name'] = result[0]
+            resultList['person_id'] = result[1]
+            print(resultList)
             if not result:
                 return ({'status': 'The data could not be fetched'}, 400)
             return ({'status': 'The data has been fetched', 'data': result}, 200)
