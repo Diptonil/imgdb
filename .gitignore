@@ -9,7 +9,6 @@ real_queries.py
 # JavaScript
 # dependencies
 node_modules
-key.js
 /.pnp
 .pnp.js
 
