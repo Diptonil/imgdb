@@ -51,7 +51,7 @@ CHECK_USER = \
 
 CREATE_MOVIE = \
     """
-    CREATE (movie: Movie {id: $id, title: $title, language: $language, length: $length,  income: $income, year_of_realease: $year_of_release, genre: $genre, description: $description, poster_path: $poster_path, rating: -1, votes: 0, stars: 0})
+    CREATE (movie: Movie {id: $id, title: $title, language: $language, length: $length,  income: $income, year_of_realease: $year_of_release, genre: $genre, description: $description, poster_path: $poster_path, rating: -1, votes: 0, stars: 0, vote_average: $vote_average})
     """
 
 CREATE_SHOW = \
@@ -167,8 +167,8 @@ WATCHLISTED_RELATION = \
 
 RECOMMENDATION = \
     """
-    MATCH (recommend_like: Movie{title: $recommend_like})-[:OF_GENRE]->(:Genre)<-[:OF_GENRE]-(all_movies: Movie)
-    MATCH (all_movies)-[:OF_GENRE]->(recommendation: Movie) WHERE NOT exists((recommend_like)-[:OF_GENRE]->(recommendation))
+    MATCH (recommend_like: Movie{title: $recommend_like})-[:OF_GENRE]->(genre: Genre)<-[:OF_GENRE]-(all_movies: Movie)
+    RETURN all_movies
+    ORDER BY all_movies.vote_average
     LIMIT 3
-    RETURN recommendation
     """

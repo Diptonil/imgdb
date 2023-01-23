@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from flask import request
@@ -21,8 +22,6 @@ from common.queries import (
     WATCHLISTED_RELATION
 )
 from common.utils import is_rating_correct, authorize
-
-# MAKE FUNCTION FOR AUTHORIZATION
 
 
 class TrendingMovies(Resource):
@@ -133,7 +132,6 @@ class AddShow(Resource):
         with self.database_driver.session() as session:
             session.run(CREATE_SHOW, entries).single()[0]
         return ({'status': 'Show has been succesfully added.', 'token': token}, 200)
-        # return ({'status': 'Unable to add show.', 'token': token}, 400)
 
 
 class GetMovies(Resource):
@@ -200,20 +198,21 @@ class Recommendation(Resource):
         recommend_like = data.get('movie')
         entries = {'recommend_like': recommend_like}
         with self.database_driver.session() as session:
-            results = session.run(RECOMMENDATION, entries).single()[0]
+            results = session.run(RECOMMENDATION, entries)
+            print(results)
             if not results:
                 return ({'status': 'Could not fetch information at the moment'}, 400)
-            final = list()
+            response = dict()
+            x = 0
             for result in results:
-                resultList = {}
-                for x in result:
-                    resultList[x] = result[x]
-                final.append(resultList)
-                print(final)
-            return ({'status': 'The data has been fetched', 'data': final}, 200)
+                response[x] = str(result[0])
+                x += 1
+            print(response)
+            return ({'status': 'The data has been fetched', 'data': response}, 200)
 
 
 class Watchlisted(Resource):
+
     def __init__(self, database_driver):
         self.database_driver = database_driver
 

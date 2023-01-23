@@ -43,6 +43,7 @@ while True:
     year_of_release = movie_data['release_date'][: 4]
     genre = movie_data['genres'][0]['name']
     genres = movie_data['genres']
+    vote_average = movie_data['vote_average']
     description = movie_data['overview']
 
     cast1 = movie_data['credits']['cast'][0]['name']
@@ -55,7 +56,7 @@ while True:
             break
 
 
-    request = {'id': id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'description': description, 'genre': genre, 'poster_path': poster_path}
+    request = {'id': id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'description': description, 'genre': genre, 'poster_path': poster_path, 'vote_average': vote_average}
     final_response = requests.post('http://localhost:5000/movie/create', json=request)
 
     for genre in genres: 
