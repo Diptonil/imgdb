@@ -4,7 +4,7 @@ name: imgdb
 services:
   api:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.api
     image: imgdb-api-server
     depends_on:
@@ -12,11 +12,19 @@ services:
 
   client:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.client
     image: imgdb-frontend
     ports:
       - "3000:80"
+    depends_on:
+      - api
+
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: Dockerfile.scheduler
+    image: imgdb-scheduler
     depends_on:
       - api
 
@@ -32,4 +40,4 @@ services:
       - C:/neo4j/logs:/logs
       - C:/neo4j/import:/var/lib/neo4j/import
     environment:
-      - NEO4J_AUTH=neo4j/pop-lovers-have-zero-taste
+      - NEO4J_AUTH=neo4j/test
