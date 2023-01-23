@@ -2,6 +2,20 @@ version: "3"
 name: imgdb
 
 services:
+  database:
+    image: neo4j
+    container_name: neo4j
+    restart: unless-stopped
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - C:/neo4j/data:/data
+      - C:/neo4j/logs:/logs
+      - C:/neo4j/import:/var/lib/neo4j/import
+    environment:
+      - NEO4J_AUTH=neo4j/test
+      
   api:
     build:
       context: ./backend
@@ -27,17 +41,4 @@ services:
     image: imgdb-scheduler
     depends_on:
       - api
-
-  database:
-    image: neo4j
-    container_name: neo4j
-    restart: unless-stopped
-    ports:
-      - 7474:7474
-      - 7687:7687
-    volumes:
-      - C:/neo4j/data:/data
-      - C:/neo4j/logs:/logs
-      - C:/neo4j/import:/var/lib/neo4j/import
-    environment:
-      - NEO4J_AUTH=neo4j/test
+      - database
