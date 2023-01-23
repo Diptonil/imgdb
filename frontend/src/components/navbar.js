@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
 
 export default function Navabar(){
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
+
+    function handleLogout(){
+        setAuth()
+        console.log("logged out")
+        console.log(auth)
+    }
 
     return(
     auth?.username 
@@ -16,7 +22,8 @@ export default function Navabar(){
                 </div>
                 <div>
                     <ul>
-                        <li><Link to ="/login" className="nav-item">Logout</Link></li>
+                        <li onClick={handleLogout} className="nav-item">Logout</li>
+                        
                     </ul>
                 </div>
             </div>
