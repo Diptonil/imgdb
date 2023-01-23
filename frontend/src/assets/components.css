@@ -169,13 +169,13 @@
 .moviecard{
     width: 250px;
     padding: 0 10px;
-    border: 1px solid black;
     margin: 0 5px;
     display: inline-block;
 }
 
 .moviecard .movieposter{
     border-radius: 6px;
+    width: 250px;
 }
 
 .moviecard .movie-name{

@@ -22,21 +22,12 @@ class Login(Resource):
             return ({'status': 'This field is required.'}, 400)
         entries = {'username': username, 'password': password}
 
-        print(username, password)
-        if username and password:
-            auth_token = jwt.encode({'user': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, SECRET_KEY)
-            print(auth_token)
-            return ({'status': 'Login successful.', 'token': auth_token}, 201)
-        return ({'status': 'Login unsuccessful. Please recheck your credentials.'}, 401)
-
         with self.database_driver.session() as session:
             result = session.run(CHECK_USER, entries).single()
             try:
-                user = User(username=username, password=password)
-                user.id = result
-                auth_token = user.encode_auth_token(user.id)
+                auth_token = jwt.encode({'user': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, SECRET_KEY)
                 if result is not None:
-                    return ({'status': 'Login successful.', 'token': auth_token.decode()}, 201)
+                    return ({'status': 'Login successful.', 'token': auth_token}, 201)
                 return ({'status': 'Login unsuccessful. Please recheck your credentials.'}, 401)
             except:
                 return ({'status': 'Login unsuccessful. There is some problem with the server. Please try again later.'}, 500)       
@@ -51,8 +42,6 @@ class Register(Resource):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
-        # date_of_birth = data.get('date_of_birth')
-        # avatar = data.get('avatar')
         user = User(username=username, password=password)
         entries = {'id': user.id, 'username': username, 'password': password}
         result = is_password_strong(password)

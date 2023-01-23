@@ -6,7 +6,6 @@ import lalaland from '../images/lalaland.jpg'
 import '../assets/home.css';
 import React, { useState, useEffect } from 'react';
 
-// const tmdb_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`
 const API_URL = `http://localhost:5000`
 
 export default function Home(){
@@ -14,19 +13,11 @@ export default function Home(){
     const [explore, setExplore] = useState([]);
     const [trending, setTrending] = React.useState([]);
 
-    // useEffect(() => {
-    //     fetch(tmdb_URL)
-    //     .then((res) => res.json())
-    //     .then(data => {
-    //         setTrending(data.results)
-    //     })
-    // }, [])
 
     useEffect(() => {
         fetch(API_URL+ '/explore')
         .then((res) => res.json())
         .then(data => {
-            console.log(data.data);
             setExplore(data.data)
         })
     }, [])

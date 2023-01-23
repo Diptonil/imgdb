@@ -16,8 +16,7 @@ export default function App(){
                     <Route path="/" element={<Home/>}/>
                     <Route path="signup" element={<Signup/>}/>
                     <Route path="login" element={ <Login />} />
-                    {/* link address for each movie page to be figured out */}
-                    <Route path={"moviedesc/:id"} element={ <MovieDesc />} />
+                    <Route path={"movie"} element={ <MovieDesc />} />
                     
 
                     {/* Protected routes */}

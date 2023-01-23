@@ -41,7 +41,8 @@ CHECK_USERNAME = \
 
 CHECK_USER = \
     """
-    
+    MATCH (user: User {username: $username, password:$password})
+    RETURN user.id
     """
 
 # Movie and Series Queries
@@ -107,3 +108,49 @@ TRENDING_MOVIES = \
 TRENDING_SHOWS = \
     """
     """
+
+# Person Queries
+CREATE_PERSON = \
+    """
+    CREATE (person: Person {person_id: $person_id, name: $name, role: $role})
+    """
+
+GET_ACTORS = \
+    """
+    MATCH (Person)-[r:WORKED_IN]->(Movie{id: $id})
+    WHERE Person.role = 'Actor'
+    RETURN COLLECT(Person)
+    """
+
+GET_DIRECTOR = \
+    """
+    MATCH (Person)-[r:WORKED_IN]->(Movie{id: $id})
+    WHERE Person.role = 'Director'
+    RETURN Person.name, Person.person_id
+    """
+
+MOVIES_OF_ACTORS_OR_DIRECTORS = \
+    """
+    MATCH (Person{person_id: $person_id})-[r:WORKED_IN]->(Movie)
+    RETURN COLLECT(Movie)
+    """
+
+
+# Relationship Queries
+WORKS_IN_RELATION = \
+    """
+    MATCH (a:Person{person_id: $person_id}), (b:Movie{id: $id})
+    CREATE (a)-[r:WORKED_IN]->(b)
+    RETURN r
+    """
+
+OF_GENRE_RELATION = \
+    """
+    MATCH (b:Movie{id: $id}), (a:Genre{name: $name})
+    CREATE (a)-[r:OF_GENRE]->(b)
+    RETURN r
+    """
+
+
+
+

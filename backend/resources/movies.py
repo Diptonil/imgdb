@@ -10,7 +10,9 @@ from common.queries import (
     CREATE_MOVIE, 
     CREATE_SHOW, 
     GET_MOVIE,
+    OF_GENRE_RELATION,
     EXPLORE,
+    MOVIES_OF_ACTORS_OR_DIRECTORS,
     GET_SHOW, 
     STAR_MOVIE_OR_SHOW,
     TRENDING_MOVIES,
@@ -132,22 +134,23 @@ class AddShow(Resource):
         # return ({'status': 'Unable to add show.', 'token': token}, 400)
 
 
-class GetMovieDetails(Resource):
+class GetMovies(Resource):
     def __init__(self, database_driver):
         self.database_driver = database_driver
 
     def post(self):
         data = request.get_json()
-        id = data.get('id')
-        entries = {'id': id}
+        person_id = data.get('person_id')
+        entries = {'person_id': person_id}
         with self.database_driver.session() as session:
-            result = session.run(GET_MOVIE, entries).single()[0]
-            if result.get('id') is not id:
-                return ({'status': 'Could not fetch information at the moment'}, 400)
-            resultList = {}
-            for x in result:
-                resultList[x] = result[x]
-            return ({'status': 'The data has been fetched', 'data': resultList}, 200)
+            results = session.run(MOVIES_OF_ACTORS_OR_DIRECTORS, entries).single()[0]
+            final = []
+            for result in results:
+                resultList = {}
+                for x in result:
+                    resultList[x] = result[x]
+                final.append(resultList)
+            return ({'status': 'The data has been fetched', 'data': final}, 200)
 
 
 class Explore(Resource):
@@ -166,3 +169,17 @@ class Explore(Resource):
                     resultList[x] = result[x]
                 final.append(resultList)
             return ({'status': 'The data has been fetched', 'data': final}, 200)
+
+
+class OfGenre(Resource):
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('movie_id')
+        name = data.get('name')
+        entries = {'id': id, 'name':name}
+        with self.database_driver.session() as session:
+            session.run(OF_GENRE_RELATION, entries)
+        return ({'status': 'Movie has been succesfully added.'}, 200)
