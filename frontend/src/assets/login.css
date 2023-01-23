@@ -70,3 +70,23 @@ form{
     margin-top: 50px;
 }
 
+
+.recs{
+    width: 80vw;
+    text-align: center;
+}
+
+
+
+#rec-button{
+    margin-top: 20px;
+    display: inline-block;
+    width: 20vw;
+    margin-left: 30px;
+}
+
+.rec-text{
+    margin-top: 20px;
+    display: inline-block;
+    width: 40vw
+}

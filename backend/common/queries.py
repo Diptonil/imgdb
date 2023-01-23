@@ -155,6 +155,13 @@ OF_GENRE_RELATION = \
     RETURN r
     """
 
+WATCHLISTED_RELATION = \
+    """
+    MATCH (a:User{username: $username}), (b:Movie{id: $id })
+    CREATE (a)-[r:WATCHLISTED]->(b)
+    RETURN r
+    """
+
 
 # Recommendation Queries
 

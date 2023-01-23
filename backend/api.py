@@ -5,7 +5,7 @@ from neo4j import GraphDatabase, basic_auth
 
 from common.constants import SECRET_KEY, MOVIE_DATABASE_PASSWORD, MOVIE_DATABASE_URL, MOVIE_DATABASE_USERNAME
 from resources.authentication import Login, Logout, Register
-from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovies, Explore, OfGenre, Recommendation
+from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovies, Explore, OfGenre, Recommendation, Watchlisted
 from resources.makers import AddPerson, GetActor, GetDirector
 
 app = Flask(__name__)
@@ -31,6 +31,7 @@ api.add_resource(GetMovies, '/movies/get', resource_class_kwargs={'database_driv
 api.add_resource(Explore, '/explore', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(OfGenre, '/genre/get', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(Recommendation, '/recommendation', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(Watchlisted, '/watchlished', resource_class_kwargs={'database_driver': database_driver})
 
 # Makers resources
 api.add_resource(AddPerson, '/person/create', resource_class_kwargs={'database_driver': database_driver})
