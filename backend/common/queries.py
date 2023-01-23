@@ -41,7 +41,8 @@ CHECK_USERNAME = \
 
 CHECK_USER = \
     """
-    
+    MATCH (user: User {username: $username, password:$password})
+    RETURN user.id
     """
 
 # Movie and Series Queries
