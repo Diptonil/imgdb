@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation} from "react-router-dom";
 import MovieCard from './moviecard';
 import lalaland from '../images/lalaland.jpg'
@@ -121,28 +121,41 @@ export default function MovieDesc(){
                 
                 {
                     activeItem === 1 && 
-                    <div className='moviecard-container'>
-                        <MovieCard />
-                        <MovieCard />
-                        <MovieCard />
-                        <MovieCard />
+                    <div>
+                        <br></br>
+                        <br></br>
+                        <div className='moviecard-container'>
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                        </div>
                     </div>
                 }
                 
                 {
                     activeItem === 2 && 
-                    <div className='moviecard-container'>
-                        <MovieCard />
-                        <MovieCard />
+                    <div>
+                        <br></br>
+                        <br></br>
+                        <div className='moviecard-container'>
+                            <MovieCard />
+                            <MovieCard />
+                        </div>
                     </div>
                 }
 
                 {
                     activeItem === 3 && 
-                    <div className='moviecard-container'>
-                        <MovieCard />
-                        <MovieCard />
-                        <MovieCard />
+                    <div>
+                        <br></br>
+                        <br></br>
+                        <div className='moviecard-container'>
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                        </div>
                     </div>
                 }
             </div>

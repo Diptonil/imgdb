@@ -107,3 +107,8 @@ TRENDING_MOVIES = \
 TRENDING_SHOWS = \
     """
     """
+
+CREATE_PERSON = \
+    """
+    CREATE (person: Person {id: $id, name: $name, role: $role})
+    """
