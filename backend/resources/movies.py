@@ -10,6 +10,7 @@ from common.queries import (
     CREATE_MOVIE, 
     CREATE_SHOW, 
     GET_MOVIE,
+    OF_GENRE_RELATION,
     EXPLORE,
     MOVIES_OF_ACTORS_OR_DIRECTORS,
     GET_SHOW, 
@@ -168,3 +169,17 @@ class Explore(Resource):
                     resultList[x] = result[x]
                 final.append(resultList)
             return ({'status': 'The data has been fetched', 'data': final}, 200)
+
+
+class OfGenre(Resource):
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('movie_id')
+        name = data.get('name')
+        entries = {'id': id, 'name':name}
+        with self.database_driver.session() as session:
+            session.run(OF_GENRE_RELATION, entries)
+        return ({'status': 'Movie has been succesfully added.'}, 200)

@@ -144,6 +144,13 @@ WORKS_IN_RELATION = \
     RETURN r
     """
 
+OF_GENRE_RELATION = \
+    """
+    MATCH (b:Movie{id: $id}), (a:Genre{name: $name})
+    CREATE (a)-[r:OF_GENRE]->(b)
+    RETURN r
+    """
+
 
 
 
