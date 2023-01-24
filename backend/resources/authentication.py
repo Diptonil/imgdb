@@ -3,7 +3,7 @@ from flask_restful import Resource
 import jwt
 import datetime
 from common.constants import SECRET_KEY
-from common.queries import CREATE_USER, CHECK_USER, CHECK_USERNAME
+from common.queries import CREATE_USER, CHECK_USER
 from common.utils import User, is_password_strong
 
     
@@ -48,8 +48,8 @@ class Register(Resource):
         if not result[0]:
             return ({'status': 'Registration unsuccessful. ' + result[1]}, 400)
         with self.database_driver.session() as session:
-            if session.run(CHECK_USERNAME, entries).single() is None:
-                return ({'status': 'Registration unsuccessful. Username already exists'}, 409)
+            # if session.run(CHECK_USERNAME, entries).single() is None:
+            #     return ({'status': 'Registration unsuccessful. Username already exists'}, 409)
             try:
                 user = User(username=username, password=password)
                 auth_token = user.encode_auth_token(user.id)

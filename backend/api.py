@@ -27,15 +27,14 @@ api.add_resource(AddMovie, '/movie/create', resource_class_kwargs={'database_dri
 api.add_resource(RateMovieOrShow, '/rate', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(StarMovie, '/movie/star', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(UnStarMovie, '/movie/unstar', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(AddMovie, '/movie/create', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(TrendingShows, '/show/trending', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(TrendingMovies, '/movie/trending', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(GetMovies, '/movies/get', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(Explore, '/explore', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(OfGenre, '/genre/get', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(Recommendation, '/recommendation', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(Watchlisted, '/watchlished', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(UnWatchlisted, '/watchlished', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(Watchlisted, '/movie/watchlisted', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(UnWatchlisted, '/movie/unwatchlisted', resource_class_kwargs={'database_driver': database_driver})
 
 # Makers resources
 api.add_resource(AddPerson, '/person/create', resource_class_kwargs={'database_driver': database_driver})

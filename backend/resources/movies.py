@@ -30,10 +30,15 @@ class TrendingMovies(Resource):
 
     def get(self):
         with self.database_driver.session() as session:
-            result = list(session.run(TRENDING_MOVIES).single())
-            if not result:
+            results = session.run(TRENDING_MOVIES)
+            if not results:
                 return ({'status': 'No trending movies at the moment.'}, 400)
-            return ({'status': 'The trending movies at the moment have been fetched.', 'movies': result}, 200)
+            response = dict()
+            x = 0
+            for result in results:
+                response[x] = str(result[0])
+                x += 1
+            return ({'status': 'The trending movies at the moment have been fetched.', 'movies': response}, 200)
 
 
 class TrendingShows(Resource):
@@ -43,10 +48,15 @@ class TrendingShows(Resource):
 
     def get(self):
         with self.database_driver.session() as session:
-            result = list(session.run(TRENDING_SHOWS).single())
-            if not result:
-                return ({'status': 'No trending shows at the moment.'}, 400)
-            return ({'status': 'The trending shows at the moment have been fetched.', 'shows': result}, 200)
+            results = session.run(TRENDING_SHOWS)
+            if not results:
+                return ({'status': 'No trending movies at the moment.'}, 400)
+            response = dict()
+            x = 0
+            for result in results:
+                response[x] = str(result[0])
+                x += 1
+            return ({'status': 'The trending movies at the moment have been fetched.', 'movies': response}, 200)
 
 
 class RateMovieOrShow(Resource):

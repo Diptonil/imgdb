@@ -89,7 +89,10 @@ RATE_MOVIE_OR_SHOW = \
 
 TRENDING_MOVIES = \
     """
-
+    MATCH (movie: Movie)
+    RETURN (movie)
+    ORDER BY movie.popularity DESC
+    LIMIT 5
     """
 
 TRENDING_SHOWS = \
