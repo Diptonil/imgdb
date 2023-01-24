@@ -5,7 +5,7 @@ from neo4j import GraphDatabase, basic_auth
 
 from common.constants import SECRET_KEY, MOVIE_DATABASE_PASSWORD, MOVIE_DATABASE_URL, MOVIE_DATABASE_USERNAME
 from resources.authentication import Login, Logout, Register
-from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovies, Explore, OfGenre, Recommendation, Watchlisted
+from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovies, Explore, OfGenre, Recommendation, Watchlisted, UnWatchlisted, StarMovie, UnStarMovie
 from resources.makers import AddPerson, GetActor, GetDirector
 
 app = Flask(__name__)
@@ -25,13 +25,17 @@ api.add_resource(Register, '/register', resource_class_kwargs={'database_driver'
 api.add_resource(AddShow, '/show/create', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(AddMovie, '/movie/create', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(RateMovieOrShow, '/rate', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(TrendingShows, '/shows/trending', resource_class_kwargs={'database_driver': database_driver})
-api.add_resource(TrendingMovies, '/movies/trending', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(StarMovie, '/movie/star', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(UnStarMovie, '/movie/unstar', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(AddMovie, '/movie/create', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(TrendingShows, '/show/trending', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(TrendingMovies, '/movie/trending', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(GetMovies, '/movies/get', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(Explore, '/explore', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(OfGenre, '/genre/get', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(Recommendation, '/recommendation', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(Watchlisted, '/watchlished', resource_class_kwargs={'database_driver': database_driver})
+api.add_resource(UnWatchlisted, '/watchlished', resource_class_kwargs={'database_driver': database_driver})
 
 # Makers resources
 api.add_resource(AddPerson, '/person/create', resource_class_kwargs={'database_driver': database_driver})

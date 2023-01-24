@@ -9,16 +9,16 @@ from common.queries import (
     CURRENT_VOTES, 
     CREATE_MOVIE, 
     CREATE_SHOW, 
-    GET_MOVIE,
     OF_GENRE_RELATION,
     EXPLORE,
     MOVIES_OF_ACTORS_OR_DIRECTORS,
-    GET_SHOW, 
-    STAR_MOVIE_OR_SHOW,
+    STAR_MOVIE,
+    UNSTAR_MOVIE,
     TRENDING_MOVIES,
     TRENDING_SHOWS,
     RECOMMENDATION, 
-    WATCHLISTED_RELATION
+    WATCHLISTED_RELATION,
+    UNWATCHLIST_RELATION
 )
 from common.utils import is_rating_correct, authorize
 
@@ -75,12 +75,34 @@ class RateMovieOrShow(Resource):
         return ({'status': 'Unable to add movie.'}, 400)
 
 
-class StarMovieOrShow(Resource):
-    pass
+class StarMovie(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('id')
+        username = data.get('username')
+        entries = {'id': id, 'username': username}
+        with self.database_driver.session() as session:
+            session.run(STAR_MOVIE, entries)
+        return ({'status': 'Movie has been succesfully starred.'}, 200)
 
 
-class UnStarMovieOrShow(Resource):
-    pass
+class UnStarMovie(Resource):
+    
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('id')
+        username = data.get('username')
+        entries = {'id': id, 'username': username}
+        with self.database_driver.session() as session:
+            session.run(UNSTAR_MOVIE, entries)
+        return ({'status': 'Movie has been succesfully unstarred.'}, 200)
 
 
 class AddMovie(Resource):
@@ -225,3 +247,18 @@ class Watchlisted(Resource):
         with self.database_driver.session() as session:
             session.run(WATCHLISTED_RELATION, entries)
         return ({'status': 'Movie has been succesfully added.'}, 200)
+
+
+class UnWatchlisted(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('id')
+        username = data.get('username')
+        entries = {'id': id, 'username': username}
+        with self.database_driver.session() as session:
+            session.run(UNWATCHLIST_RELATION, entries)
+        return ({'status': 'Movie has been succesfully removed.'}, 200)

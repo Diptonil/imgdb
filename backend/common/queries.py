@@ -35,11 +35,6 @@ CREATE_USER = \
     CREATE (user: User {id: $id, username: $username, password: $password})
     """
 
-CHECK_USERNAME = \
-    """
-    
-    """
-
 CHECK_USER = \
     """
     MATCH (user: User {username: $username, password:$password})
@@ -92,16 +87,6 @@ RATE_MOVIE_OR_SHOW = \
 
     """
 
-STAR_MOVIE_OR_SHOW = \
-    """
-    
-    """
-
-UNSTAR_MOVIE_OR_SHOW = \
-    """
-    
-    """
-
 TRENDING_MOVIES = \
     """
 
@@ -150,16 +135,35 @@ WORKS_IN_RELATION = \
 
 OF_GENRE_RELATION = \
     """
-    MATCH (b:Movie{id: $id}), (a:Genre{name: $name})
-    CREATE (b)-[r:OF_GENRE {rank: $relation_rank}]->(a)
+    MATCH (b: Movie{id: $id}), (a: Genre{name: $name})
+    CREATE (b)-[r: OF_GENRE {rank: $relation_rank}]->(a)
     RETURN r
     """
 
 WATCHLISTED_RELATION = \
     """
-    MATCH (a:User{username: $username}), (b:Movie{id: $id })
-    CREATE (a)-[r:WATCHLISTED]->(b)
+    MATCH (a: User {username: $username}), (b: Movie{id: $id })
+    CREATE (a)-[r: WATCHLISTED]->(b)
     RETURN r
+    """
+
+UNWATCHLIST_RELATION = \
+    """
+    MATCH (user: User {username: $username})-[r: WATCHLISTED]->(movie: Movie{id: $id})
+    DELETE r
+    """
+
+STAR_MOVIE = \
+    """
+    MATCH (a: User{username: $username}), (b: Movie{id: $id})
+    CREATE (a)-[r: STARRED]->(b)
+    RETURN r
+    """
+
+UNSTAR_MOVIE = \
+    """
+    MATCH (user: User {username: $username})-[r: STARRED]->(movie: Movie{id: $id})
+    DELETE r
     """
 
 
