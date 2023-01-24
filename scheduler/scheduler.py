@@ -77,4 +77,4 @@ while True:
 
     with open('taken-movies.txt', 'a') as file:
         file.write(str(number) + '\n')
-    time.sleep(30)
+    time.sleep(10)

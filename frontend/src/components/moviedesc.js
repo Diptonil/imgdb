@@ -32,6 +32,24 @@ export default function MovieDesc(){
     const [actors, setActors] = useState({})
     const [ director, setDirector ] = useState([])
     
+    const [explore, setExplore] = useState([])
+
+    useEffect(() => {
+        fetch(API_URL+ '/recommendation', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                            movie: prop.title
+                        })
+        })
+        .then((res) => res.json())
+        .then(data => {
+            setExplore(data.data)
+        })
+    }, [])
+    
 
     useEffect(() => {
         fetch(API_URL+ '/actor/get',  {
@@ -201,10 +219,7 @@ export default function MovieDesc(){
                         <br></br>
                         <br></br>
                         <div className='moviecard-container'>
-                            <MovieCard />
-                            <MovieCard />
-                            <MovieCard />
-                            <MovieCard />
+                            {explore.map((movieRequest) => <MovieCard key={movieRequest.id} {...movieRequest}/>)}
                         </div>
                     </div>
                 }

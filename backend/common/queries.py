@@ -174,8 +174,14 @@ UNSTAR_MOVIE = \
 
 RECOMMENDATION = \
     """
-    MATCH (recommend_like: Movie{title: "Das Boot"})-[:OF_GENRE]->(genre: Genre)<-[:OF_GENRE]-(all_movies: Movie)
+    MATCH (recommend_like: Movie{title: $recommend_like})-[:OF_GENRE]->(genre: Genre)<-[:OF_GENRE]-(all_movies: Movie)
     MATCH (recommend_like)-[rank: OF_GENRE]->(genre: Genre)
-    RETURN all_movies
+    WITH all_movies, rank
     ORDER BY all_movies.popularity DESC, rank.rank ASC
+    RETURN COLLECT(all_movies)
+    """
+
+GET_RECORD = \
+    """
+    
     """

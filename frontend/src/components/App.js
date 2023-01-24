@@ -17,6 +17,7 @@ export default function App(){
                     <Route path="signup" element={<Signup/>}/>
                     <Route path="login" element={ <Login />} />
                     <Route path={"movie"} element={ <MovieDesc />} />
+                    <Route path={"recommendations"} element={ <MovieDesc />} />
                     
 
                     {/* Protected routes */}

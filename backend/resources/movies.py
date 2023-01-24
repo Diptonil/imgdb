@@ -231,17 +231,23 @@ class Recommendation(Resource):
         recommend_like = data.get('movie')
         entries = {'recommend_like': recommend_like}
         with self.database_driver.session() as session:
-            results = session.run(RECOMMENDATION, entries)
+            results = session.run(RECOMMENDATION, entries).single()[0]
             print(results)
             if not results:
                 return ({'status': 'Could not fetch information at the moment'}, 400)
-            response = dict()
-            x = 0
+            # response = dict()
+            # x = 0
+            # for result in results:
+            #     response[x] = result[0].title
+            #     x += 1
+            # print(response)
+            final = []
             for result in results:
-                response[x] = str(result[0])
-                x += 1
-            print(response)
-            return ({'status': 'The data has been fetched', 'data': response}, 200)
+                resultList = {}
+                for x in result:
+                    resultList[x] = result[x]
+                final.append(resultList)
+            return ({'status': 'The data has been fetched', 'data': final}, 200)
 
 
 class Watchlisted(Resource):
@@ -272,3 +278,23 @@ class UnWatchlisted(Resource):
         with self.database_driver.session() as session:
             session.run(UNWATCHLIST_RELATION, entries)
         return ({'status': 'Movie has been succesfully removed.'}, 200)
+
+
+class GetMovieById(Resource):
+
+    def __init__(self, database_driver):
+        self.database_driver = database_driver
+
+    def post(self):
+        data = request.get_json()
+        id = data.get('id')
+        entries = {'id': id}
+        with self.database_driver.session() as session:
+            results = session.run(MOVIES_OF_ACTORS_OR_DIRECTORS, entries).single()[0]
+            final = []
+            for result in results:
+                resultList = {}
+                for x in result:
+                    resultList[x] = result[x]
+                final.append(resultList)
+            return ({'status': 'The data has been fetched', 'data': final}, 200)
