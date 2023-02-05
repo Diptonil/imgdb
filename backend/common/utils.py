@@ -1,9 +1,14 @@
 import datetime
+from flask_restful import Resource
 import jwt
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+from reportlab.lib import colors
 import uuid
 
 from common.constants import SECRET_KEY
-from common.queries import USER_CONSTRAINTS, MOVIE_CONSTRAINTS, AUTHORIZATION
+from common.queries import USER_CONSTRAINTS, MOVIE_CONSTRAINTS, AUTHORIZATION, EXPLORE
 
 
 class User():
@@ -71,3 +76,31 @@ def is_rating_correct(rating):
     if rating > 10 and rating < 0:
         return True
     return False
+
+
+class MakePDF(Resource):
+
+    def __init__(self, database_driver) -> None:
+        self.database_driver = database_driver
+
+    def get(self):
+        pdf = canvas.Canvas('D:\\programs\\git\\imgdb\\backend\\common\\pdf.pdf')
+        pdf.setTitle('PDF')
+        with self.database_driver.session() as session:
+            results = session.run(EXPLORE).single()[0]
+            if not results:
+                return ({'status': 'Could not fetch information at the moment'}, 400)
+            final = []
+            for result in results:
+                final.append(result['title'])
+        pdf.drawCentredString(300, 770, 'List of movies')
+        text = pdf.beginText(40, 680)
+        text.setFont("Courier", 8)
+        text.setFillColor(colors.blue)
+        for line in final:
+            text.textLine(line)
+        pdf.drawText(text)
+        pdf.drawInlineImage('D:\\programs\\git\\imgdb\\backend\\common\\image.jpg', 10, 700)
+        pdf.save()
+        return ({'status': 'Done.'}, 200) 
+            

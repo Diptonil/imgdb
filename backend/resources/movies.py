@@ -119,6 +119,7 @@ class AddMovie(Resource):
     
     def __init__(self, database_driver):
         self.database_driver = database_driver
+        print("AddMovie has been initialised")
 
     def post(self):
         data = request.get_json()
@@ -134,8 +135,6 @@ class AddMovie(Resource):
         poster_path = data.get('poster_path')
         popularity = data.get('popularity')
         entries = {'id': movie_id, 'title': title, 'language': language, 'length': length, 'income': income, 'year_of_release': year_of_release, 'genre': genre, 'description': description, 'poster_path': poster_path, 'popularity': popularity}
-        # if not authorize(token, self.database_driver):
-        #     return ({'status': 'You aren\'t authorized to access this resource.', 'token': token}, 400)
         with self.database_driver.session() as session:
             session.run(CREATE_MOVIE, entries)
         return ({'status': 'Movie has been succesfully added.', 'token': token}, 200)
@@ -235,12 +234,6 @@ class Recommendation(Resource):
             print(results)
             if not results:
                 return ({'status': 'Could not fetch information at the moment'}, 400)
-            # response = dict()
-            # x = 0
-            # for result in results:
-            #     response[x] = result[0].title
-            #     x += 1
-            # print(response)
             final = []
             for result in results:
                 resultList = {}

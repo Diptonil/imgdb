@@ -7,7 +7,6 @@ import '../assets/home.css';
 import React, { useState, useEffect } from 'react';
 
 const API_URL = `http://localhost:5000`
-const IMG_URL = "https://image.tmdb.org/t/p/w500"
 
 export default function Home(){
 

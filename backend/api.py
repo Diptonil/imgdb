@@ -4,6 +4,7 @@ from flask_restful import Api
 from neo4j import GraphDatabase, basic_auth
 
 from common.constants import SECRET_KEY, MOVIE_DATABASE_PASSWORD, MOVIE_DATABASE_URL, MOVIE_DATABASE_USERNAME
+from common.utils import MakePDF
 from resources.authentication import Login, Logout, Register
 from resources.movies import AddMovie, AddShow, RateMovieOrShow, TrendingMovies, TrendingShows, GetMovies, Explore, OfGenre, Recommendation, Watchlisted, UnWatchlisted, StarMovie, UnStarMovie
 from resources.makers import AddPerson, GetActor, GetDirector
@@ -40,6 +41,8 @@ api.add_resource(UnWatchlisted, '/movie/unwatchlisted', resource_class_kwargs={'
 api.add_resource(AddPerson, '/person/create', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(GetActor, '/actor/get', resource_class_kwargs={'database_driver': database_driver})
 api.add_resource(GetDirector, '/director/get', resource_class_kwargs={'database_driver': database_driver})
+
+api.add_resource(MakePDF, '/pdf', resource_class_kwargs={'database_driver': database_driver})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

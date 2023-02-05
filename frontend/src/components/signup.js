@@ -53,7 +53,7 @@ export default function Signup(){
 
     return(
         <div className='signup-login'>
-            <img className='movieposter' alt='lalaland' src={lalaland}></img>
+            
             <div className='form-container'>
                 <div className='welcome-text'>
                     <h1>Welcome to IMGDb!</h1>
