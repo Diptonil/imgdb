@@ -1,5 +1,4 @@
 # Internet Movie Graph Database
-![Border](static/readme/separator.png)
 <div id="top"></div>
 <span>
 <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
@@ -10,7 +9,6 @@
 
 
 ## Table of Contents
-![Border](static/readme/separator.png)
 
 - [Description](#description)
 - [Frameworks and Tools](#frameworks-and-tools)
@@ -21,7 +19,6 @@
 
 
 ## Description
-![Border](static/readme/separator.png)
 
 IMGDb is a scalable and dynamic web application that primarily was built to propose an alternative architecture to host a functional and viable movie database. The main features of this application are:
 - **Microservices**: Use of microservices has been done so as to facilitate the segregation of services into individual components that can be scaled and operated individually running as separate containers. The orchestration is done using Docker Compose. This ensures lightweight service deployments without resorting to a bulky monolith.
@@ -35,7 +32,6 @@ The future scope of the project would be to extend the functionality using Redis
 
 
 ## Frameworks and Tools
-![Border](static/readme/separator.png)
 
 The major frameworks, tools, services and APIs used for the making of this project is hereby listed:
 - **Flask**: API server and website backend.
@@ -47,7 +43,6 @@ The major frameworks, tools, services and APIs used for the making of this proje
 
 
 ## Prerequisites
-![Border](static/readme/separator.png)
 
 Install Docker and configure Compose. That is the only requirement.
 
@@ -55,7 +50,6 @@ Install Docker and configure Compose. That is the only requirement.
 
 
 ## Installation
-![Border](static/readme/separator.png)
 
 1. Clone the repository:
     ```sh
@@ -72,7 +66,6 @@ The time to spin up the containers would vary for different systems. However, at
 
 
 ## Roadmap
-![Border](static/readme/separator.png)
 
 There are subsequent upgrades to be made to the project to reach the final stage. Here are a list of all immediate objectives:
 
